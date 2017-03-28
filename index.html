@@ -40,7 +40,9 @@
 	<script src="js/modernizr-2.8.3.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
 	<script src="./scripts/d3test.js"></script>
+    <script src="./scripts/d3forest.js"></script>
     <!-- Modernizr /-->
+  
 	<!--[if IE 9]>
 		<script src="js/PIE_IE9.js"></script>
 	<![endif]-->
@@ -62,27 +64,30 @@
 	</div>
 
 	<!-- FullScreen -->
-	<video autoplay="" id="bgvid" loop="" muted="">
-        <source src="vid/vid1.mp4" type="video/mp4">
-    </video>
 	<div class="intro-header">
-		<div class="col-xs-12 text-center abcen1">
-			<h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Before The Floods</h1>
-			<h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">When is it too late?</h3>
-			<ul class="list-inline intro-social-buttons">
-				<li><a href="https://github.com/" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="fa fa-github">&nbsp; Github</span></a>
-				</li>
-			</ul>
-		</div>
-		<!-- /.container -->
-		<div class="col-xs-12 text-center abcen wow fadeIn">
-			<div class="button_down ">
-				<a class="imgcircle wow bounceInUp" data-wow-duration="1.5s" href="#whatis"> <img class="img_scroll" src="img/icon/circle.png" alt=""> </a>
-			</div>
-		</div>
-	</div>
-
-	<!-- NavBar-->
+                <div class="bg">
+                     <video autoplay loop>
+                          <source src="vid/vid1.mp4" type="video/mp4"/>
+                          <source src="http://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg"/>
+                     </video>
+                </div>            
+                <div class="col-xs-12 text-center abcen1">
+                    <h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Before The Floods</h1>
+                    <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">When is it too late?</h3>
+                    <ul class="list-inline intro-social-buttons">
+                        <li><a href="https://github.com/" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="fa fa-github">&nbsp; Github</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- container -->
+                <div class="col-xs-12 text-center abcen wow fadeIn">
+                    <div class="button_down ">
+                        <a class="imgcircle wow bounceInUp" data-wow-duration="1.5s" href="#whatis"> <img class="img_scroll" src="img/icon/circle.png" alt=""> </a>
+                    </div>
+                </div>
+	
+    </div>
+    <!-- NavBar-->
 	<nav class="navbar-default" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
@@ -237,49 +242,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 text-center wrap_title ">
-					<h2>Screen App</h2>
+					<h2>Bubble Chart</h2>
 					<p class="lead" style="margin-top:0">A special thanks to Death.</p>
 				</div>
 			</div>
 			<div class="row wow bounceInUp">
-				<div id="owl-demo" class="owl-carousel">
+				<div class="bubbleChart"/>
 
-					<a href="img/slide/1.png" class="image-link">
-						<div class="item">
-							<img class="img-responsive img-rounded" src="img/slide/1.png" alt="Owl Image">
-						</div>
-					</a>
-
-					<a href="img/slide/2.png" class="image-link">
-						<div class="item">
-							<img class="img-responsive img-rounded" src="img/slide/2.png" alt="Owl Image">
-						</div>
-					</a>
-
-					<a href="img/slide/3.png" class="image-link">
-						<div class="item">
-							<img class="img-responsive img-rounded" src="img/slide/3.png" alt="Owl Image">
-						</div>
-					</a>
-
-					<a href="img/slide/1.png" class="image-link">
-						<div class="item">
-							<img class="img-responsive img-rounded" src="img/slide/1.png" alt="Owl Image">
-						</div>
-					</a>
-
-					<a href="img/slide/2.png" class="image-link">
-						<div class="item">
-							<img class="img-responsive img-rounded" src="img/slide/2.png" alt="Owl Image">
-						</div>
-					</a>
-
-					<a href="img/slide/3.png" class="image-link">
-						<div class="item">
-							<img class="img-responsive img-rounded" src="img/slide/3.png" alt="Owl Image">
-						</div>
-					</a>
-				</div>
 			</div>
 		</div>
 
@@ -316,8 +285,9 @@
 	</div>
 
 	<!-- Credits -->
-	<div id="forestdata" class="content-section-a">
-		<div class="container">
+	<div id="forestdata" class="content-section-b" >
+		<div class="container" align = "center">
+                <h2>Forest Data</h2>
             <style>
                     svg{
 	                       background-color : hsl(240, 50%, 96%);	
@@ -330,174 +300,176 @@
                     span{
                         font-size : 0.8em;
                     }
-            </style>
-            <centre>
-            <div> </div> 
-            <h2>Forest Data</h2>
-            <span>Forest area (% of total land area)</span></centre>
-            <script>
-
-            change = function(){
-                if(d3.select("span").text() == "Agricultural area (% of total land area)"){
-                d3.select("span").text("Forest area (% of total land area)");
-                d3.selectAll("rect").transition().attr("fill", function(d){return colorLegendForest(d)});
-                d3.selectAll("path")
-                  .transition()
-                  .style("fill", function(d){ 
-                        if(d){
-                            if(d.properties.forest){ return colorForest(d.properties.forest)}
-                            else{return "#d9d9d9"}
-                        }
-                        });
-                }
-                else if(d3.select("span").text() == "Forest area (% of total land area)"){
-                d3.select("span").text("Agricultural area (% of total land area)")
-                d3.selectAll("rect").transition().attr("fill", function(d){return colorLegendAgri(d)})
-                d3.selectAll("path")
-                  .transition()
-                  .style("fill", function(d){
-                        if(d){
-                            if(d.properties.agri){ return colorAgri(d.properties.agri)}
-                            else{return "#d9d9d9"}
-                        }
-                        });
-                }
-            }
-
-            var colorAgri,
-                colorForest,
-                w = 960,
-                h = 480,
-                minAgri,
-                maxAgri,
-                minForest,
-                maxForest; 
-
-            var colorLegendForest = d3.scaleLinear()
-                           .domain([0,5])
-                           .range(["#fff", "#008000" ]);
-
-            var colorLegendAgri = d3.scaleLinear()
-                           .domain([0,5])
-                           .range(["#fff", "#806000" ]);
-
-            svg = d3.select("div")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h)
-                .on("click", change)
-
-            path = d3.geoPath().projection(d3.geoMercator().translate([w/2,(h+120)/2]).scale([130]));
-
-            d3.csv("forest.csv", function(csv){
-
-                minAgri = d3.min(csv, function(d){return d.agri});
-                maxAgri = d3.max(csv, function(d){return d.agri});
-                minForest = d3.min(csv, function(d){return d.forest});
-                maxForest = d3.max(csv, function(d){return d.forest});
-
-
-                colorAgri = d3.scaleLinear()
-                           .domain([
-                            0, 
-                            d3.max(csv, function(d){return d.agri})])
-                           .range(["#fff", "#806000" ]);
-
-                colorForest = d3.scaleLinear()
-                           .domain([
-                            0, 
-                            d3.max(csv, function(d){return d.forest})])
-                           .range(["#fff", "#008000" ]);
-
-
-
-                d3.json("countries.json", function(json){
-                    for(var i = 0; i<csv.length; i++){
-                        for (var j = 0; j<json.features.length; j++ ){
-                            if(json.features[j].id == csv[i].code){
-                                json.features[j].properties.agri = parseFloat(csv[i].agri);
-                                json.features[j].properties.forest = parseFloat(csv[i].forest);		
-                                break;
-                            }
-                        }
-                    }
-                    svg.selectAll("path")
-                        .data(json.features)
-                        .enter().append("path")
-                        .style("fill", function(d){
-                            if(d.properties.forest){ 
-                                return colorForest(d.properties.forest)
-                                }
-                            else{return "#cccccc"}
-                            })
-                        .on("mouseover", function(d){ 
-                            var cote = 100,
-                            arc = d3.arc()
-                                .innerRadius(cote/4)
-                                .outerRadius(cote/2)
-                                .padAngle(0.1);
-                            pie = d3.pie()
-                                .sort(null)
-                                .value(function(d){return d.value}),
-                            datapie = pie([{value: d.properties.forest, label: "Forest"},
-                                    {value: d.properties.agri, label: "Agri"},
-                                    {value: 100 - d.properties.forest- d.properties.agri, label: "other"}]);
-                            var y = h - cote / 2 - 10;
-                            var x = cote / 2 + 20;
-
-                            svg.append("text")
-                               .text(d.properties.name)
-                               .attr("class", "infos")
-                               .attr("x",x - 2*d.properties.name.length)
-                               .attr("y", y-cote/2-20)
-
-                            for (i=0; i<3; i++){
-                                if(i == 0){color = "#669900"} 
-                                else if (i== 1){color = "#ffbb33"} 
-                                else if (i== 2){color = "#bfbfbf"} 
-                                svg.append("path")
-                                     .attr("class", "infos")
-                                     .attr("transform", "translate(" + x + "," + y + ")")
-                                     .attr("d", arc(datapie[i]))
-                                     .attr("fill", color )	
-                            }
-
-                        })
-                        .on("mouseout", function(){ svg.selectAll(".infos").remove() })
-                        .attr("d", path)
-                        .on("click", change);
-                });
-            });
-
-
-            svg.selectAll("rect")
-                .data([0,1,2,3,4,5])
-                .enter()
-                .append("rect")
-                .attr("x", function(d){ return w - 20*(8-d)} )
-                .attr("y", h - 20 )
-                .attr("width", 20)
-                .attr("height", 20)
-                .attr("fill", function(d){return colorLegendForest(d)})
-
-            svg.append("text")
-                .text("-")
-                .attr("x", w-20*8 )
-                .attr("y", h - 25 )
-                .style("font-size", "1em")
-
-            svg.append("text")
-                .text("+")
-                .attr("x", w-20*3 )
-                .attr("y", h - 25 )
-                .style("font-size", "1em")
-
-        </script>
-			
+                </style>
+             <center>
+                 <div id = "svgHere"></div>
+                <span>Forest area (% of total land area)</span>
+            </center>
+         
             
+<!--            <script src = "scripts/d3forest.js"></script>                       -->
+<script>
+
+change = function(){
+	if(d3.select("span").text() == "Agricultural area (% of total land area)"){
+	d3.select("span").text("Forest area (% of total land area)");
+	d3.selectAll("rect").transition().attr("fill", function(d){return colorLegendForest(d)});
+	d3.selectAll("path")
+	  .transition()
+	  .style("fill", function(d){ 
+	  		if(d){
+				if(d.properties.forest){ return colorForest(d.properties.forest)}
+				else{return "#d9d9d9"}
+			}
+			});
+	}
+	else if(d3.select("span").text() == "Forest area (% of total land area)"){
+	d3.select("span").text("Agricultural area (% of total land area)")
+	d3.selectAll("rect").transition().attr("fill", function(d){return colorLegendAgri(d)})
+	d3.selectAll("path")
+	  .transition()
+	  .style("fill", function(d){
+			if(d){
+				if(d.properties.agri){ return colorAgri(d.properties.agri)}
+				else{return "#d9d9d9"}
+			}
+			});
+	}
+}
+
+var colorAgri,
+    colorForest,
+    w = 960,
+    h = 480,
+    minAgri,
+    maxAgri,
+    minForest,
+    maxForest; 
+
+var colorLegendForest = d3.scaleLinear()
+		       .domain([0,5])
+		       .range(["#fff", "#008000" ]);
+		       
+var colorLegendAgri = d3.scaleLinear()
+		       .domain([0,5])
+		       .range(["#fff", "#806000" ]);
+
+svg = d3.select("#svgHere")
+	.append("svg")
+	.attr("width", w)
+	.attr("height", h)
+	.on("click", change)
+
+path = d3.geoPath().projection(d3.geoMercator().translate([w/2,(h+120)/2]).scale([130]));
+
+d3.csv("forest.csv", function(csv){
+	
+	minAgri = d3.min(csv, function(d){return d.agri});
+	maxAgri = d3.max(csv, function(d){return d.agri});
+	minForest = d3.min(csv, function(d){return d.forest});
+	maxForest = d3.max(csv, function(d){return d.forest});
+	
+	
+	colorAgri = d3.scaleLinear()
+		       .domain([
+				0, 
+				d3.max(csv, function(d){return d.agri})])
+		       .range(["#fff", "#806000" ]);
+
+	colorForest = d3.scaleLinear()
+		       .domain([
+				0, 
+				d3.max(csv, function(d){return d.forest})])
+		       .range(["#fff", "#008000" ]);
+
+
+
+	d3.json("countries.json", function(json){
+		for(var i = 0; i<csv.length; i++){
+			for (var j = 0; j<json.features.length; j++ ){
+				if(json.features[j].id == csv[i].code){
+					json.features[j].properties.agri = parseFloat(csv[i].agri);
+					json.features[j].properties.forest = parseFloat(csv[i].forest);		
+					break;
+				}
+			}
+		}
+		svg.selectAll("path")
+			.data(json.features)
+			.enter().append("path")
+			.style("fill", function(d){
+				if(d.properties.forest){ 
+					return colorForest(d.properties.forest)
+					}
+				else{return "#cccccc"}
+				})
+			.on("mouseover", function(d){ 
+				var cote = 100,
+				arc = d3.arc()
+					.innerRadius(cote/4)
+					.outerRadius(cote/2)
+					.padAngle(0.1);
+				pie = d3.pie()
+					.sort(null)
+					.value(function(d){return d.value}),
+				datapie = pie([{value: d.properties.forest, label: "Forest"},
+						{value: d.properties.agri, label: "Agri"},
+						{value: 100 - d.properties.forest- d.properties.agri, label: "other"}]);
+				var y = h - cote / 2 - 10;
+				var x = cote / 2 + 20;
+				
+				svg.append("text")
+				   .text(d.properties.name)
+				   .attr("class", "infos")
+				   .attr("x",x - 2*d.properties.name.length)
+				   .attr("y", y-cote/2-20)
+				
+				for (i=0; i<3; i++){
+					if(i == 0){color = "#669900"} 
+					else if (i== 1){color = "#ffbb33"} 
+					else if (i== 2){color = "#bfbfbf"} 
+					svg.append("path")
+					     .attr("class", "infos")
+					     .attr("transform", "translate(" + x + "," + y + ")")
+					     .attr("d", arc(datapie[i]))
+					     .attr("fill", color )	
+				}
+	
+			})
+			.on("mouseout", function(){ svg.selectAll(".infos").remove() })
+			.attr("d", path)
+			.on("click", change);
+	});
+});
+
+	
+svg.selectAll("rect")
+	.data([0,1,2,3,4,5])
+	.enter()
+	.append("rect")
+	.attr("x", function(d){ return w - 20*(8-d)} )
+	.attr("y", h - 20 )
+	.attr("width", 20)
+	.attr("height", 20)
+	.attr("fill", function(d){return colorLegendForest(d)})
+
+svg.append("text")
+	.text("-")
+	.attr("x", w-20*8 )
+	.attr("y", h - 25 )
+	.style("font-size", "1em")
+	
+svg.append("text")
+	.text("+")
+	.attr("x", w-20*3 )
+	.attr("y", h - 25 )
+	.style("font-size", "1em")
+
+</script>
             
-		</div>
 	</div>
+    </div>
+    
 
 	<!-- Contact -->
 	<div id="effectsonhumanhealth" class="content-section-a">
@@ -563,10 +535,10 @@
 
 
 
-	<footer>
+    <footer>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-7">
+                <div class="col-md-7">
 					<h3 class="footer-title">Follow Me!</h3>
 					<p>Vuoi ricevere news su altri template?<br/> Visita Andrea Galanti.it e vedrai tutte le news riguardanti nuovi Theme!<br/> Go to: <a href="http://andreagalanti.it" target="_blank">andreagalanti.it</a>
 					</p>
@@ -574,11 +546,10 @@
 					<!-- LICENSE -->
 					<a rel="cc:attributionURL" href="http://www.andreagalanti.it/flatfy" property="dc:title">Flatfy Theme </a> by
 					<a rel="dc:creator" href="http://www.andreagalanti.it" property="cc:attributionName">Andrea Galanti</a> is licensed to the public under
-					<BR>the <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/it/deed.it">Creative
-		   Commons Attribution 3.0 License - NOT COMMERCIAL</a>.
-
-
-				</div>
+                    <BR>the <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/it/deed.it">Creative Commons Attribution 3.0 License - NOT COMMERCIAL</a></BR>.
+                        
+                </div>
+				
 				<!-- /col-xs-7 -->
 
 				<div class="col-md-5">
