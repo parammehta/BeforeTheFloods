@@ -2,12 +2,12 @@
 <br />
 <br />
 <div class="container">
-		<div class="text-center input-group">
-				<input type="text" ng-model="chosenPlace" class="form-control" placeholder="Your City" cities>
-				<span class="input-group-btn">
+	<div class="text-center input-group">
+		<input type="text" ng-model="chosenPlace" class="form-control" placeholder="Your City" cities>
+		<span class="input-group-btn">
 					<button class="btn btn-primary" type="button" ng-click="populateCityDetails()">Check</button>
 				</span>
-		</div>
+	</div>
 </div>
 <br />
 <br />
@@ -18,13 +18,19 @@
 
 		<div class="col-md-6 col-md-offset-3 text-center wrap_title">
 			<h2>Weather details</h2>
-			<p class="lead" style="margin-top:0">Weather is displayed in degree celcius by default</p>
+			<p class="lead" style="margin-top:0">{{city}} Weather is displayed in degree celcius by default</p>
 
-			<label>&#8451;</label>
-			<input type="radio" ng-model="temperature" value="C" checked>
-			<label>&#8457;</label>
-				<input type="radio" ng-model="temperature" value="F">
+			<div class="pull-left">
+				<label>&#8451;</label>
+				<input type="radio" ng-model="temperature" value="C" checked>
+				<label>&#8457;</label>
+				<input type="radio" ng-model="temperature" value="F" />
+			</div>
 
+			<div class="pull-right">
+				<input type="radio" ng-model="weatherType" value="current" id="toggle-on" name="toggle"><label for="toggle-on">Current Weather</label>
+				<input type="radio" ng-model="weatherType" value="future" id="toggle-off" name="toggle" checked><label for="toggle-off">Weather Forcast</label>
+			</div>
 			<weather-visualization data='{{data}}'>
 				<div id="weatherDetail" class="">
 				</div>

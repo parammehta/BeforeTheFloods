@@ -45,6 +45,7 @@
                 $('#weather').removeClass('hidden');
                 $scope.getFutureWeather($scope.latitude, $scope.longitude);
                 $scope.renderShit($scope.temperature);
+                $scope.city=$scope.chosenPlace;
             };
 
             $scope.convertToC = function(temp_k) {
@@ -53,7 +54,7 @@
             };
 
             $scope.convertToF = function(temp_k) {
-                var temp_f = Math.round((((Math.round((temp_k - 273.15) * 100) / 100) * (9 / 5)) + 32)*100);
+                var temp_f = Math.round((((Math.round((temp_k - 273.15) * 100) / 100) * (9 / 5)) + 32)*100)/100;
                 return temp_f;
             };
 
