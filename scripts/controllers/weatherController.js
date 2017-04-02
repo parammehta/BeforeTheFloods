@@ -4,7 +4,6 @@
     // Load controller
     angular.module('d3App').controller('weatherController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants) {
 
-            $scope.city = "tempe";
             $scope.temperature = "C";
             $scope.controllerInit = function() {
                 console.log('initialize');
@@ -12,40 +11,43 @@
             };
 
             $scope.getCurrentWeather = function(latitude, longitude) {
-                var payloadForService = '{"url":"' + myConstants.weatherURL + '/data/2.5/weather?q=' + $scope.city + '&appid=' + myConstants.appid + '"}';
+                var payloadForService = '{"url":"' + myConstants.weatherURL + '/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&appid=' + myConstants.appid + '"}';
                 var weatherCall = new serviceCall("weather", "GET");
-                weatherCall.call(payloadForService, $scope.successCallback, $scope.errorCallback);
+                weatherCall.call(payloadForService, $scope.currentWeatherSuccessCallback, $scope.errorCallback);
             }
 
             $scope.getFutureWeather = function(latitude, longitude) {
                 var payloadForService = '{"url":"' + myConstants.weatherURL + '/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&appid=' + myConstants.appid + '"}';
                 console.log("URL is:" + payloadForService);
                 var weatherCall = new serviceCall("weather", "GET");
-                weatherCall.call(payloadForService, $scope.successCallback, $scope.errorCallback);
+                weatherCall.call(payloadForService, $scope.futureWeatherSuccessCallback, $scope.errorCallback);
             }
-            $scope.successCallback = function(data, status, headers, config) {
+            $scope.futureWeatherSuccessCallback = function(data, status, headers, config) {
                 console.log(data);
-                // $log.info(status);
-                // $log.info(headers);
-                // $log.info(config);
                 $scope.data = data;
             };
+
+            $scope.currentWeatherSuccessCallback = function(data, status, headers, config) {
+                console.log(data);
+                $scope.dataCurrent = data;
+            };
+
             $scope.errorCallback = function(data, status, headers, config) {
-              $log.error("Data from error" + data);
+                $log.error("Data from error" + data);
                 $log.error(status);
                 $log.error(headers);
                 $log.error(config);
-
             };
 
             $scope.populateCityDetails = function() {
                 console.log($scope.latitude);
                 console.log($scope.longitude);
-
                 $('#weather').removeClass('hidden');
                 $scope.getFutureWeather($scope.latitude, $scope.longitude);
+                $scope.getCurrentWeather($scope.latitude, $scope.longitude);
                 $scope.renderShit($scope.temperature);
-                $scope.city=$scope.chosenPlace;
+                $scope.populateDailyWeather($scope.temperature);
+                $scope.city = $scope.chosenPlace;
             };
 
             $scope.convertToC = function(temp_k) {
@@ -54,7 +56,7 @@
             };
 
             $scope.convertToF = function(temp_k) {
-                var temp_f = Math.round((((Math.round((temp_k - 273.15) * 100) / 100) * (9 / 5)) + 32)*100)/100;
+                var temp_f = Math.round((((Math.round((temp_k - 273.15) * 100) / 100) * (9 / 5)) + 32) * 100) / 100;
                 return temp_f;
             };
 
@@ -157,20 +159,6 @@
                                 .y((d) => yScale(d.temp))
                             );
 
-                        // Fill temperature area
-                        // svg.append("path")
-                        //     .datum(lineData)
-                        //     .attr("fill", "#fffbc1")
-                        //     .attr("stroke-width", "0")
-                        //     .attr("opacity", ".5")
-                        //     .attr("d", d3.area()
-                        //         .curve(d3.curveCardinal)
-                        //         .x((d) => xScale(d.date))
-                        //         .y0(height)
-                        //         .y1((d) => yScale(d.temp))
-                        //     );
-
-                        // Temperature change point and value
                         var tempPoint = svg.selectAll(".temp-point")
                             .data(lineData)
                             .enter()
@@ -293,7 +281,41 @@
 
             }
         })
+        .directive('currentWeather', function() {
+            return {
+                restrict: 'E',
+                terminal: true,
+                link: function(scope, element, attrs) {
+                    scope.renderDailyViz = function(tempFromUser) {
+                        var data = scope.dataCurrent;
+                        $('#pressure').text(data.main.pressure);
+                        $('#humidity').text(data.main.humidity);
+                        $('#main').text(data.weather[0].main)
+                        $('#desc').text(data.weather[0].description)
+                        if (tempFromUser === 'C') {
+                            $('#temp').text(scope.convertToC(data.main.temp));
+                            $('#temp_min').text(scope.convertToC(data.main.temp_min));
+                            $('#temp_max').text(scope.convertToC(data.main.temp_max));
 
+                        } else {
+                            $('#temp').text(scope.convertToF(data.main.temp));
+                            $('#temp_min').text(scope.convertToF(data.main.temp_min));
+                            $('#temp_max').text(scope.convertToF(data.main.temp_max));
+
+                        }
+                    };
+
+                    scope.populateDailyWeather = function(value) {
+                        setTimeout(function() {
+                            scope.renderDailyViz(value);
+                        }, 1000);
+                    };
+                    scope.$watch('temperature', function(temperature) {
+                        scope.populateDailyWeather(temperature);
+                    });
+                }
+            }
+        })
         .directive('cities', function() {
             return {
                 require: 'ngModel',

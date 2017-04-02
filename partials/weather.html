@@ -27,10 +27,16 @@
 				<input type="radio" ng-model="temperature" value="F" />
 			</div>
 
-			<div class="pull-right">
-				<input type="radio" ng-model="weatherType" value="current" id="toggle-on" name="toggle"><label for="toggle-on">Current Weather</label>
-				<input type="radio" ng-model="weatherType" value="future" id="toggle-off" name="toggle" checked><label for="toggle-off">Weather Forcast</label>
-			</div>
+			<current-weather>
+					Temperature = <p id="temp"></p>
+					Pressure = <p id="pressure"></p>
+					Humidity = <p id="humidity"></p> %
+					Mininum Temperature = <p id="temp_min"></p>
+					Mininum Temperature = <p id="temp_max"></p>
+					Overall = <p id="main"></p>
+					<p id="desc" class="hidden"></p>
+			</current-weather>
+
 			<weather-visualization data='{{data}}'>
 				<div id="weatherDetail" class="">
 				</div>
