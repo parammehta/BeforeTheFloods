@@ -5,7 +5,7 @@
 		<div class="text-center input-group">
 				<input type="text" ng-model="chosenPlace" class="form-control" placeholder="Your City" cities>
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" ng-click="populateCityDetails()">Check</button>
+					<button class="btn btn-primary" type="button" ng-click="populateCityDetails()">Check</button>
 				</span>
 		</div>
 </div>
@@ -21,56 +21,16 @@
 			<p class="lead" style="margin-top:0">Weather is displayed in degree celcius by default</p>
 
 			<label>&#8451;</label>
-			<input type="radio" name="temperature" value="C" checked>
+			<input type="radio" ng-model="temperature" value="C" checked>
 			<label>&#8457;</label>
-				<input type="radio" name="temperature" value="F">
+				<input type="radio" ng-model="temperature" value="F">
 
 			<weather-visualization data='{{data}}'>
-				<style>
-					path {
-						stroke: steelblue;
-						stroke-width: 1;
-						fill: none;
-					}
-					.axis path, .axis line {
-						fill: none;
-						stroke: grey;
-						stroke-dasharray: 5;
-						stroke-width: 1;
-						shape-rendering: crispEdges;
-					}
-
-					.area {
-						fill: lightblue;
-						opacity: 0.2;
-					}
-
-					.x-tip, .y-tip {
-						stroke: blue;
-						stroke-dasharray: 3,3;
-						opacity: 0.5;
-					}
-
-					#graph {
-						margin: 0 0 0 -25px;
-					}
-
-					input {
-						background: none;
-						border: none;
-						border-bottom: thin dotted grey;
-						width: 150px;
-						font-size: 12px;
-					}
-
-					td {
-						margin-left: 15px;
-					}
-				</style>
 				<div id="weatherDetail" class="">
 				</div>
 			</weather-visualization>
-			<button class="btn btn-default" type="button" ng-click="">Next page</button>
+
+			<button class="btn btn-danger" type="button" ng-click="">Next page</button>
 
 		</div>
 
