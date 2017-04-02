@@ -1,7 +1,7 @@
 /*
 Theme: Flatfy Theme
 Author: Andrea Galanti
-Bootstrap Version 
+Bootstrap Version
 Build: 1.0
 http://www.andreagalanti.it
 */
@@ -269,7 +269,7 @@ h6,
   color: black;
 }
 h1 small,
-h2 small,	
+h2 small,
 h3 small,
 h4 small,
 h5 small,
@@ -330,7 +330,7 @@ li{list-style-type:none}
 }
 @media (min-width: 768px) {
   .lead {
-	
+
   }
 }
 small,
@@ -575,23 +575,23 @@ fieldset[disabled] .btn {
   top: 2px;
 }
 .btn-default {
-  color: #ffffff;
-  background-color: #bdc3c7;
+  /*color: #ffffff;*/
+  /*background-color: #bdc3c7;*/
 }
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #ffffff;
-  background-color: #cacfd2;
-  border-color: #cacfd2;
+  /*color: #ffffff;*/
+  /*background-color: #cacfd2;*/
+  /*border-color: #cacfd2;*/
 }
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  background: #a1a6a9;
-  border-color: #a1a6a9;
+  /*background: #a1a6a9;*/
+  /*border-color: #a1a6a9;*/
 }
 .btn-default.disabled,
 .btn-default[disabled],
@@ -612,23 +612,23 @@ fieldset[disabled] .btn-default.active {
   border-color: #bdc3c7;
 }
 .btn-primary {
-  color: #ffffff;
-  background-color: #1abc9c;
+  /*color: #ffffff;*/
+  /*background-color: #1abc9c;*/
 }
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  color: #ffffff;
+  /*color: #ffffff;
   background-color: #48c9b0;
-  border-color: #48c9b0;
+  border-color: #48c9b0;*/
 }
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background: #16a085;
-  border-color: #16a085;
+  /*background: #16a085;
+  border-color: #16a085;*/
 }
 .btn-primary.disabled,
 .btn-primary[disabled],
@@ -645,8 +645,8 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
-  background-color: #1abc9c;
-  border-color: #1abc9c;
+  /*background-color: #1abc9c;
+  border-color: #1abc9c;*/
 }
 .btn-info {
   color: #ffffff;
@@ -657,7 +657,7 @@ fieldset[disabled] .btn-primary.active {
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
-  color: #ffffff;
+  /*color: #ffffff;*/
   background-color: #5dade2;
   border-color: #5dade2;
 }
@@ -1175,7 +1175,7 @@ label {
 }
 .form-group.focus .form-control,
 .form-control:focus {
-  border-color: #1abc9c;
+  /*border-color: #1abc9c;*/
   outline: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -1625,8 +1625,8 @@ fieldset[disabled] .input-group.focus .input-group-btn .btn-default.active {
   border-color: #1abc9c;
 }
 .input-group-btn .btn {
-  background-color: #ffffff;
-  border: 2px solid #bdc3c7;
+  /*background-color: #ffffff;
+  border: 2px solid #bdc3c7;*/
   color: #bdc3c7;
   line-height: 18px;
 }
@@ -4718,11 +4718,11 @@ footer p {
 /* All Mobile Sizes (devices and browser) */
 	@media only screen and (max-width: 767px) {
 		p{text-align: center;}
-		
+
 		h1, .h1 {
 			font-size: 50px;
 		}
-		
+
 		h3, .h3 {
 			font-size: 20px;
 			text-align:center
@@ -4749,27 +4749,27 @@ footer p {
 	}
 
 	@media only screen and (min-width: 768px) and (max-width: 959px) {
-		
-		
+
+
 		h1, .h1 {
 			font-size: 50px;
 		}
-		
+
 		h3, .h3 {
 			font-size: 20px;
-			
+
 		}
 		.col-sm-4 {margin-bottom: 120px; text-align:center;}
-		
+
 		.col-sm-5 {margin-top:120px}
 		.box-ct{text-align:center}
-		
+
 		.box-icon{margin: 0 auto;}
 		address{margin-top:80px;}
 		.address{text-align:center}
 		.footer-banner{display:none}
-		
-		
-		
-		
+
+
+
+
 	}
