@@ -53,7 +53,7 @@
             };
 
             $scope.convertToF = function(temp_k) {
-                var temp_f = ((Math.round((temp_k - 273.15) * 100) / 100) * (9 / 5)) + 32;
+                var temp_f = Math.round((((Math.round((temp_k - 273.15) * 100) / 100) * (9 / 5)) + 32)*100);
                 return temp_f;
             };
 
