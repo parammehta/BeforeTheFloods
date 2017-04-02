@@ -18,11 +18,61 @@
 
 		<div class="col-md-6 col-md-offset-3 text-center wrap_title">
 			<h2>Weather details</h2>
-			<p class="lead" style="margin-top:0">Weather details for the page</p>
+			<p class="lead" style="margin-top:0">Weather is displayed in degree celcius by default</p>
+
+			<label>&#8451;</label>
+			<input type="radio" name="temperature" value="C" checked>
+			<label>&#8457;</label>
+				<input type="radio" name="temperature" value="F">
+
 			<weather-visualization data='{{data}}'>
+				<style>
+					path {
+						stroke: steelblue;
+						stroke-width: 1;
+						fill: none;
+					}
+					.axis path, .axis line {
+						fill: none;
+						stroke: grey;
+						stroke-dasharray: 5;
+						stroke-width: 1;
+						shape-rendering: crispEdges;
+					}
+
+					.area {
+						fill: lightblue;
+						opacity: 0.2;
+					}
+
+					.x-tip, .y-tip {
+						stroke: blue;
+						stroke-dasharray: 3,3;
+						opacity: 0.5;
+					}
+
+					#graph {
+						margin: 0 0 0 -25px;
+					}
+
+					input {
+						background: none;
+						border: none;
+						border-bottom: thin dotted grey;
+						width: 150px;
+						font-size: 12px;
+					}
+
+					td {
+						margin-left: 15px;
+					}
+				</style>
 				<div id="weatherDetail" class="">
 				</div>
 			</weather-visualization>
+			<button class="btn btn-default" type="button" ng-click="">Next page</button>
+
 		</div>
+
 	</div>
 </div>
