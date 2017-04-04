@@ -45,6 +45,9 @@
     <script src="js/modernizr-2.8.3.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
+    <!--    Image Slider-->
+    <link rel="stylesheet" type="text/css" href="css/imgslider.min.css">
+    <script type="text/javascript" src="js/imgslider.min.js"></script>
 
 </head>
 
@@ -60,19 +63,38 @@
 
         <div class="intro-header">
             <div class="bg">
-                <video autoplay loop muted>
-                  <source src="vid/vid1.mp4" type="video/mp4">
+                <video autoplay loop muted style="min-height:976px">
+                  <source src="vid/video.mp4" type="video/mp4">
               </video>
             </div>
             <div class="col-xs-12 text-center abcen1">
-                <h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Before The Floods</h1>
-                <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">When is it too late?</h3>
+                <h1 class="h1_home wow fadeIn" data-wow-delay="0.4s" style="color:white">Before The Floods</h1>
+                <h3 class="h3_home wow fadeIn" data-wow-delay="1.6s">When is it too late?</h3>
                 <ul class="list-inline intro-social-buttons">
                     <li><a href="https://github.com/" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="fa fa-github">&nbsp; Github</span></a>
                     </li>
                 </ul>
             </div>
+            <div class="col-xs-12 text-center abcen wow fadeIn">
+                <div class="button_down ">
+                    <a class="imgcircle wow bounceInUp" data-wow-duration="1.5s" href="#introduction"> <img class="img_scroll" src="img/icon/circle.png" alt=""> </a>
+                </div>
+            </div>
         </div>
+        <!--
+        <style>
+            .next-banner {
+                padding: 10px;
+                text-align: right;
+                background-color: #34495e;
+            }
+
+        </style>
+-->
+        <!--
+        <div class="next-banner">
+        </div>
+-->
 
         <!-- NavBar-->
         <nav class="navbar-default" role="navigation">
@@ -102,20 +124,29 @@
         </nav>
 
         <!-- Introduction -->
-        <div id="introduction" class="content-section-b" style="border-top: 0">
+        <div id="introduction" class="content-section-a" style="border-top: 0">
             <div class="container">
-
-                <div class="col-md-6 text-center wrap_title">
+                <div class="col-md-6 col-md-offset-3 text-center wrap_title">
                     <h2>Introduction</h2>
-                    <p class="lead" style="margin-top:0; text-align: justify">Global warming is one of the biggest problem that the world is facing right now. The atmosphere is being damaged because of the increasing greenhouse gas emissions. Physical impacts of global warming are growing and something needs
-                        be done to save our Earth before it suffers from any more damage. Our proposed project is a user-interactive web-based application which would help people understand about weather and pollution in their city and at a global level.
-                        We would start from a city of the user’s choice so they can get information about climate change and pollution level in their city which would interest him/her to search at a national level and then at an international level.</p>
+                    <p class="lead" style="margin-top:0">Will we survive "Before the Floods?"</p>
+
+                </div>
+                <div class="col-sm-6 pull-right wow fadeInRightBig">
+                    <p class="lead" style="margin-top:0; text-align: justify">Global warming is one of the biggest problem that the world is facing right now. The atmosphere is being damaged because of the increasing greenhouse gas emissions. Physical impacts of global warming are growing and something needs be done to save our Earth before it suffers from any more damage. Our proposed project is a user-interactive web-based application which would help people understand about weather and pollution in their city and at a global level. We would start from a city of the user’s choice so they can get information about climate change and pollution level in their city which would interest him/her to search at a national level and then at an international level.</p>
+                </div>
+
+                <div class="col-sm-6 pull-right wow fadeInLeftBig">
+                    <div class="imageslide">
+                        <img src="images/beijing_before.png" alt="">
+                        <img src="images/beijing_after.png" alt="">
+                    </div>
+                    <script src="js/imgslider.min.js"></script>
                 </div>
             </div>
         </div>
 
         <!-- views -->
-        <div ng-view></div>
+        <div ng-view padding="0px"> </div>
 
         <!-- <footer>
             <div class="container">
@@ -161,6 +192,13 @@
 
             });
         });
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new imageslide();
+        });
+
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
     <!-- Smoothscroll -->
@@ -168,6 +206,7 @@
     <script src="js/wow.min.js"></script>
     <script>
         new WOW().init();
+
     </script>
     <script src="js/classie.js"></script>
     <!-- <script src="js/uiMorphingButton_inflow.js"></script> -->
