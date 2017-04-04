@@ -60,6 +60,14 @@
                 return temp_f;
             };
 
+
+            $scope.openPollutionIndex = function () {
+                $scope.changePage('pollutionIndex');
+            };
+
+            $scope.changePage = function(path) {
+                $location.path(path);
+            };
             $scope.controllerInit();
 
 
