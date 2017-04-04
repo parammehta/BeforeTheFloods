@@ -14,14 +14,14 @@
                 var payloadForService = '{"url":"' + myConstants.weatherURL + '/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&appid=' + myConstants.appid + '"}';
                 var weatherCall = new serviceCall("weather", "GET");
                 weatherCall.call(payloadForService, $scope.currentWeatherSuccessCallback, $scope.errorCallback);
-            }
+            };
 
             $scope.getFutureWeather = function(latitude, longitude) {
                 var payloadForService = '{"url":"' + myConstants.weatherURL + '/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&appid=' + myConstants.appid + '"}';
                 console.log("URL is:" + payloadForService);
                 var weatherCall = new serviceCall("weather", "GET");
                 weatherCall.call(payloadForService, $scope.futureWeatherSuccessCallback, $scope.errorCallback);
-            }
+            };
             $scope.futureWeatherSuccessCallback = function(data, status, headers, config) {
                 console.log(data);
                 $scope.data = data;
@@ -110,7 +110,7 @@
                                     temp: +scope.convertToC(temp_k),
                                     temp_min: +scope.convertToC(d.main.temp_min),
                                     temp_max: +scope.convertToC(d.main.temp_max)
-                                }
+                                };
                                 lineData.push(day);
                             });
                         } else {
@@ -121,7 +121,7 @@
                                     temp: +scope.convertToF(temp_k),
                                     temp_min: +scope.convertToF(d.main.temp_min),
                                     temp_max: +scope.convertToF(d.main.temp_max)
-                                }
+                                };
                                 lineData.push(day);
                             });
                         }
