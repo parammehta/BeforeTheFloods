@@ -9,8 +9,7 @@
         <div class="text-center input-group">
             <input type="text" ng-model="chosenPlace" class="form-control" placeholder="Your City" cities>
             <span class="input-group-btn">
-					<button class="btn btn-primary" type="button" ng-click="populateCityDetails(); "
-                            style="background: #e74c3c;color: #ecf0f1;">Weather</button>
+					<a class="btn btn-primary" type="button" ng-click="scrollTo('weather');populateCityDetails()"style="background: #e74c3c;color: #ecf0f1;">Weather</a>
 				</span>
         </div>
     </div>
@@ -34,19 +33,19 @@
                 <div class="row">
 
                     <div class="col-sm-4 wow fadeInDown text-center">
-                        <img class="rotate" src="/img//icon//temperature.svg" alt="Generic placeholder image">
+                        <img class="rotate" src="../img/icon/temperature.svg" alt="Generic placeholder image">
                         <h3>Temperature</h3>
                         <p id="temp" class="lead"></p>
                     </div>
                     <!-- /.col-lg-4 -->
 
                     <div class="col-sm-4 wow fadeInDown text-center">
-                        <img class="rotate" src="img/icon/pressure.svg" alt="Generic placeholder image">
+                        <img class="rotate" src="../img/icon/pressure.svg" alt="Generic placeholder image">
                         <h3>Pressure</h3>
                         <p id="pressure" class="lead"></p>
                     </div>
                     <div class="col-sm-4 wow fadeInDown text-center">
-                        <img class="rotate" src="img/icon/humidity.svg" alt="Generic placeholder image">
+                        <img class="rotate" src="../img/icon/humidity.svg" alt="Generic placeholder image">
                         <h3> Humidity</h3>
                         <p id="humidity" class="lead"></p>
                     </div>
@@ -54,20 +53,18 @@
                 <div class="row tworow">
 
                     <div class="col-sm-4 wow fadeInDown text-center">
-                        <img class="rotate" src="img/icon/minTemperature.svg" alt="Generic placeholder image">
+                        <img class="rotate" src="../img/icon/minTemperature.svg" alt="Generic placeholder image">
                         <h3>Minimum Temperature</h3>
                         <p id="temp_min" class="lead"></p>
                     </div>
                     <!-- /.col-lg-4 -->
-
-			<button class="btn btn-danger" type="button" ng-click="openPollutionIndex()">Next page</button>
                     <div class="col-sm-4 wow fadeInDown text-center">
-                        <img class="rotate" src="/img/icon/maxTemperature.svg" alt="Generic placeholder image">
+                        <img class="rotate" src="../img/icon/maxTemperature.svg" alt="Generic placeholder image">
                         <h3>Maximium Temperature</h3>
                         <p id="temp_max" class="lead"></p>
                     </div>
                     <div class="col-sm-4 wow fadeInDown text-center">
-                        <img class="rotate" src="img/icon/retina.svg" alt="Generic placeholder image">
+                        <img class="rotate" src="../img/icon/wind.svg" alt="Generic placeholder image">
                         <h3> Wind</h3>
                         <p id="humidity" class="lead"></p>
                     </div>
@@ -178,7 +175,6 @@
                     background: lightgreen;
                     border: solid 1px green !important;
                 }
-
             </style>
             <div class="toggle-btn-grp joint-toggle">
                 <label onclick="" class="toggle-btn success">
@@ -199,8 +195,10 @@
             <p style="color:white; font-size: 20px">
                 We would start from a city of the user’s choice so they can get information about climate change and pollution level in their city.
                 <br><br>
-                <strong>Next: Pollution Index</strong></p>
-            <button class="btn btn-danger" type="button" ng-click="">Next page</button>
+                <strong>Next: Pollution Index</strong>
+                <a class="btn btn-danger" type="button" href="#pollutionIndex" ng-click="openPollutionIndex()">Next page</a>
+            </p>
+            <br /><br />
         </div>
     </div>
 </div>
@@ -214,6 +212,5 @@
             $(this).parent().toggleClass("success");
         }
     });
-
 </script>
 <script src="js/jquery.magnific-popup.js"></script>

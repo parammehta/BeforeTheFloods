@@ -2,7 +2,7 @@
 
     'use strict';
     // Load controller
-    angular.module('d3App').controller('weatherController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants) {
+    angular.module('d3App').controller('weatherController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', '$anchorScroll', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants,$anchorScroll) {
 
             $scope.temperature = "C";
             $scope.controllerInit = function() {
@@ -48,6 +48,7 @@
                 $scope.renderShit($scope.temperature);
                 $scope.populateDailyWeather($scope.temperature);
                 $scope.city = $scope.chosenPlace;
+                $scope.saveToActiveData();
             };
 
             $scope.convertToC = function(temp_k) {
@@ -61,13 +62,24 @@
             };
 
 
-            $scope.openPollutionIndex = function () {
-                $scope.changePage('pollutionIndex');
+            $scope.openPollutionIndex = function() {
+                $('#pollutionIndex').removeClass('hidden');
             };
-
+            $scope.scrollTo = function(id) {
+                $location.hash(id);
+                $anchorScroll();
+            };
+            
             $scope.changePage = function(path) {
                 $location.path(path);
             };
+
+            $scope.saveToActiveData = function() {
+                activeData.setCityName($scope.city);
+                activeData.setCityLatitude($scope.latitude);
+                activeData.setCityLongitude($scope.longitude);
+            };
+
             $scope.controllerInit();
 
 
@@ -80,8 +92,9 @@
                 terminal: true,
                 link: function(scope, element, attrs) {
                     scope.renderVis = function(tempFromUser) {
-                        console.log(data);
-                        var data = scope.data.list;
+
+                        if(scope.data !== undefined)
+                          var data = scope.data.list;
 
                         // Set the dimensions of the canvas / graph
                         // SVG dimensions
