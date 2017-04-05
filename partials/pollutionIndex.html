@@ -2,13 +2,31 @@
 <br />
 <div class="part hidden" id="pollutionIndex" class="content-section-b" style="border-top: 0">
 	<div class="container">
+		<style>
+		.cities {
+  fill: none;
+  stroke: #aaa;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 1.5px;
+}
+
+.city--hover {
+  stroke: #000;
+}
+
+.focus text {
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+		</style>
 		<pollution-index>
 
 			<div class="col-sm-6">
 				<br>
 				<br>
 
-				<div id="chart"></div>
+				<svg width="960" height="500"></svg>
 
 				<p class="captionRight"><em>Data: The World Bank</em></p>
 

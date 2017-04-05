@@ -1,112 +1,126 @@
 (function() {
 
-    'use strict';
-    // Load controller
-    angular.module('d3App').controller('pullutionIndexController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants) {
+        'use strict';
+        // Load controller
+        angular.module('d3App').controller('pullutionIndexController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants) {
 
-            $scope.controllerInit = function() {
-                $('#pollutionIndex').removeClass('hidden');
-            };
-            $scope.controllerInit();
+                $scope.controllerInit = function() {
+                    $('#pollutionIndex').removeClass('hidden');
+                };
+                $scope.controllerInit();
 
-        }])
+            }])
 
-        .directive('pollutionIndex', function() {
-            return {
-                restrict: 'E',
-                terminal: true,
-                link: function(scope, element, attrs) {
-                    // set the dimensions and margins of the graph
-                    console.log("Running");
-                    var margin = {
-                            top: 20,
-                            right: 40,
-                            bottom: 30,
-                            left: 50
-                        },
-                        width = 960 - margin.left - margin.right,
-                        height = 500 - margin.top - margin.bottom;
+            .directive('pollutionIndex', function() {
+                    return {
+                        restrict: 'E',
+                        terminal: true,
+                        link: function(scope, element, attrs) {
+                            // set the dimensions and margins of the graph
+                            console.log("Running");
+                            var months,
+                                monthKeys,
+                                monthParse = d3.timeParse("%Y");
 
-                    var parseTime = d3.timeParse("%Y");
-                    // set the ranges
-                    var x = d3.scaleTime().range([0, width]);
-                    var y = d3.scaleLinear().range([height, 0]);
-                    // append the svg obgect to the body of the page
-                    // appends a 'group' element to 'svg'
-                    // moves the 'group' element to the top left margin
-                    var svg = d3.select("#chart").append("svg")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
-                        .attr("transform",
-                            "translate(" + margin.left + "," + margin.top + ")");
-                    var countryData = [];
+                            var svg = d3.select("svg"),
+                                margin = {
+                                    top: 20,
+                                    right: 30,
+                                    bottom: 30,
+                                    left: 40
+                                },
+                                width = svg.attr("width") - margin.left - margin.right,
+                                height = svg.attr("height") - margin.top - margin.bottom,
+                                g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                            var x = d3.scaleTime()
+                                .range([0, width]);
 
-                    // Get the data
-                    d3.csv("../data/World_Bank_pm2.5_over_time.csv", function(error, data) {
-                        if (error) throw error;
-                        var country = {};
-                        // format the data
-                        data.forEach(function(d) {
-                            country = {
-                                "Country": d.Country_Name,
-                                "1990": +d.A1990,
-                                "1995": +d.A1995,
-                                "2000": +d.A2000,
-                                "2005": +d.A2005,
-                                "2010": +d.A2010,
-                                "2011": +d.A2011,
-                                "2013": +d.A2013
-                            };
-                            countryData.push(country);
-                        });
-                    });
-                    console.log(countryData);
-                    var years = [1990, 1995, 2000, 2005, 2010, 2011, 2013];
-                    x.domain(d3.extent(years, function(d) {
-                        return parseTime(d);
-                    }));
+                            var y = d3.scaleLinear()
+                                .range([height, 0]);
+                            var line = d3.line()
+                                .x(function(d) {
+                                    return x(d.date);
+                                })
+                                .y(function(d) {
+                                    return y(d.value);
+                                });
 
-                    // Add the X Axis
-                    svg.append("g")
-                        .attr("class", "axis axis--x")
-                        .attr("transform", "translate(0," + height + ")")
-                        .call(d3.axisBottom(x));
+                            var countryData = [];
+                            // Get the data
+                            d3.csv("../data/World_Bank_pm2.5_over_time.csv", function(error, data) {
+                                if (error) throw error;
+                                x.domain(d3.extent(months));
+                                y.domain([0, d3.max(data, function(c) {
+                                    return d3.max(c.values, function(d) {
+                                        return d.value;
+                                    });
+                                })]).nice();
 
-                    y.domain(d3.extent(countryData, function(d) {
-                        return d.Country;
-                    }));
+                                g.append("g")
+                                    .attr("class", "axis axis--x")
+                                    .attr("transform", "translate(0," + height + ")")
+                                    .call(d3.axisBottom(x));
 
-                    svg.append("g")
-                        .attr("class", "axis axis--y")
-                        .call(d3.axisLeft(y).ticks(10))
-                        .append("text")
-                        .attr("transform", "rotate(-90)");
-                    var g = svg.append("g")
-                        .attr("transform",
-                            "translate(" + margin.left + "," + margin.top + ")");
-                    var multiline = function(years) {
-                        var line = d3.line()
-                            .x(function(d) {
-                              console.log(d.date);
-                                return x(d.date);
-                            })
-                            .y(function(d) {
-                              console.log(d[years]);
-                                return y(d[years]);
+                                g.append("g")
+                                    .attr("class", "axis axis--y")
+                                    .call(d3.axisLeft(y).ticks(10, "%"))
+                                    .append("text")
+                                    .attr("x", 4)
+                                    .attr("y", 0.5)
+                                    .attr("dy", "0.32em")
+                                    .style("text-anchor", "start")
+                                    .style("fill", "#000")
+                                    .style("font-weight", "bold")
+                                    .text("Pm 2.5 Index");
+
+                                g.append("g")
+                                    .attr("class", "cities")
+                                    .selectAll("path")
+                                    .data(data)
+                                    .enter().append("path")
+                                    .attr("d", function(d) {
+                                        d.line = this;
+                                        return line(d.values);
+                                    });
+
+                                var focus = g.append("g")
+                                    .attr("transform", "translate(-100,-100)")
+                                    .attr("class", "focus");
+
+                                focus.append("circle")
+                                    .attr("r", 3.5);
+
+                                focus.append("text")
+                                    .attr("y", -10);
+
+                                function mouseover(d) {
+                                    d3.select(d.data.city.line).classed("city--hover", true);
+                                    d.data.city.line.parentNode.appendChild(d.data.city.line);
+                                    focus.attr("transform", "translate(" + x(d.data.date) + "," + y(d.data.value) + ")");
+                                    focus.select("text").text(d.data.city.name);
+                                }
+
+                                function mouseout(d) {
+                                    d3.select(d.data.city.line).classed("city--hover", false);
+                                    focus.attr("transform", "translate(-100,-100)");
+                                }
                             });
-                        return line;
-                    };
-                    var i;
-                    for (i in years) {
-                        var lineFunction = multiline(years[i]);
-                        g.append("path")
-                            .datum(countryData)
-                            .attr("class", "line")
-                            .style("stroke", 'red')
-                            .attr("d", lineFunction);
-                    }
-                }
-            };
-        });
-})();
+                            function type(d, i, columns) {
+                                if (!months) monthKeys = columns.slice(1), months = monthKeys.map(monthParse);
+                                var c = {
+                                    name: d.Country_Name.replace(/ (msa|necta div|met necta|met div)$/i, ""),
+                                    values: null
+                                };
+                                c.values = monthKeys.map(function(k, i) {
+                                    return {
+                                        city: c,
+                                        date: months[i],
+                                        value: d[k] / 100
+                                    };
+                                });
+                                return c;
+                            }
+                        }
+                      };
+                    });
+            })();
