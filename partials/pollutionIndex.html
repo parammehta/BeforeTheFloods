@@ -3,52 +3,73 @@
 <div class="part hidden" id="pollutionIndex" class="content-section-b" style="border-top: 0">
 	<div class="container">
 		<style>
-		.cities {
-  fill: none;
-  stroke: #aaa;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-width: 1.5px;
-}
+			.domain{
+				stroke:#000;
+			}
+			pollution-index {
+				font-size: 12px;
+				font-family: "Helvetica Neue", Helvetica, sans-serif;
+			}
 
-.city--hover {
-  stroke: #000;
-}
+			p.instructions {
+				width: 500px;
+			}
 
-.focus text {
-  text-anchor: middle;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-}
+			line.axis {
+				stroke: #000000;
+			}
+
+			path {
+				stroke: #cccccc;
+				fill: none;
+				stroke-width: 2.0px;
+			}
+
+			path.highlight {
+				stroke: red;
+				fill: none;
+			}
+
+			#tooltip {
+				position: absolute;
+				width: auto;
+				height: auto;
+				padding: 10px;
+				background-color: white;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				pointer-events: none;
+			}
+
+			#tooltip.hidden {
+				display: none;
+			}
+
+			#tooltip p {
+				margin: 0;
+				color: black;
+				font-family: sans-serif;
+				font-size: 16px;
+				line-height: 20px;
+			}
 		</style>
 		<pollution-index>
 
 			<div class="col-sm-6">
 				<br>
 				<br>
-
-				<svg width="960" height="500"></svg>
-
+				<!-- <svg width="960" height="500"></svg> -->
+				<div id="chart"></div>
 				<p class="captionRight"><em>Data: The World Bank</em></p>
-
-				<div class="row">
-					<div class="col-sm-4 text-center">
-						<button class="btn btn-block btn-info" id="but1">Global Statistics</button>
-					</div>
-					<div class="col-sm-3 text-center">
-						<button class="btn btn-block btn-danger" id="btn-all-cities-reset">Reset Lines</button>
-					</div>
-
-					<div class="col-sm-5">
-						<form>
-							<input type="text" class="form-control typeahead" id="intro-country" placeholder="Look for countries">
-						</form>
-					</div>
-				</div>
 				<br>
 				<br>
 				<br>
 			</div>
-			</pollution-index>
+		</pollution-index>
 
 
 	</div>
