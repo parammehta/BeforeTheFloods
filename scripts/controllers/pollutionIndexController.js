@@ -2,10 +2,26 @@
 
     'use strict';
     // Load controller
-    angular.module('d3App').controller('pullutionIndexController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants) {
+    angular.module('d3App')
+    .controller('pullutionIndexController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants','$anchorScroll', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants, $anchorScroll) {
 
             $scope.controllerInit = function() {
                 $('#pollutionIndex').removeClass('hidden');
+                // $scope.scrollTo("chart");
+            };
+            $scope.scrollTo = function(id) {
+                console.log("scroll to " + id);
+                $timeout(function() {
+                    $location.hash(id);
+                    $anchorScroll();
+                });
+            };
+
+            $scope.openBubbleChart = function () {
+                $scope.changePage('co2Data');
+            };
+            $scope.changePage = function(path) {
+                $location.path(path);
             };
             $scope.controllerInit();
 

@@ -21,6 +21,10 @@
           templateUrl: "partials/pollutionIndex.html",
           controller: "pullutionIndexController"
         })
+        .when("/co2Data", {
+          templateUrl: "partials/co2Data.html",
+          controller: "co2DataController"
+        })
         .otherwise({
            redirectTo: '/'
         });

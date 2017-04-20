@@ -2,7 +2,7 @@
 
     'use strict';
     // Load controller
-    angular.module('d3App').controller('weatherController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', '$anchorScroll', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants,$anchorScroll) {
+    angular.module('d3App').controller('weatherController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', '$anchorScroll', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants, $anchorScroll) {
 
             $scope.temperature = "C";
             $scope.controllerInit = function() {
@@ -63,13 +63,18 @@
 
 
             $scope.openPollutionIndex = function() {
-                $('#pollutionIndex').removeClass('hidden');
+              $('#pollutionIndex').removeClass('hidden');
+              $scope.changePage('pollutionIndex');
+                // $('#pollutionIndex').removeClass('hidden');
             };
-            $scope.scrollTo = function(id) {
-                $location.hash(id);
-                $anchorScroll();
-            };
-            
+            // $scope.scrollTo = function(id) {
+            //     console.log("scroll to " + id);
+            //     $timeout(function() {
+            //         $location.hash(id);
+            //         $anchorScroll();
+            //     });
+            // };
+
             $scope.changePage = function(path) {
                 $location.path(path);
             };
@@ -93,8 +98,8 @@
                 link: function(scope, element, attrs) {
                     scope.renderVis = function(tempFromUser) {
 
-                        if(scope.data !== undefined)
-                          var data = scope.data.list;
+                        if (scope.data !== undefined)
+                            var data = scope.data.list;
 
                         // Set the dimensions of the canvas / graph
                         // SVG dimensions
@@ -124,6 +129,7 @@
                             day = {};
                         var date = "";
                         if (tempFromUser === 'C') {
+                          if(data !== undefined){
                             data.forEach(function(d) {
                                 var temp_k = d.main.temp;
                                 day = {
@@ -134,6 +140,8 @@
                                 };
                                 lineData.push(day);
                             });
+                          }
+
                         } else {
                             data.forEach(function(d) {
                                 var temp_k = d.main.temp;
@@ -288,7 +296,7 @@
                         //     .attr('dy', "-10px")
                         //     .style("text-anchor", "middle")
                         //     .text((d) => d.temp + "°");
-
+                        // scope.scrollTo('weather');
                     };
                     scope.renderShit = function(value) {
                         setTimeout(function() {
@@ -309,21 +317,24 @@
                 link: function(scope, element, attrs) {
                     scope.renderDailyViz = function(tempFromUser) {
                         var data = scope.dataCurrent;
-                        $('#pressure').text(data.main.pressure);
-                        $('#humidity').text(data.main.humidity);
-                        $('#main').text(data.weather[0].main)
-                        $('#desc').text(data.weather[0].description)
-                        if (tempFromUser === 'C') {
-                            $('#temp').text(scope.convertToC(data.main.temp));
-                            $('#temp_min').text(scope.convertToC(data.main.temp_min));
-                            $('#temp_max').text(scope.convertToC(data.main.temp_max));
+                        if(data !== undefined){
+                          $('#pressure').text(data.main.pressure);
+                          $('#humidity').text(data.main.humidity);
+                          $('#main').text(data.weather[0].main)
+                          $('#desc').text(data.weather[0].description)
+                          if (tempFromUser === 'C') {
+                              $('#temp').text(scope.convertToC(data.main.temp));
+                              $('#temp_min').text(scope.convertToC(data.main.temp_min));
+                              $('#temp_max').text(scope.convertToC(data.main.temp_max));
 
-                        } else {
-                            $('#temp').text(scope.convertToF(data.main.temp));
-                            $('#temp_min').text(scope.convertToF(data.main.temp_min));
-                            $('#temp_max').text(scope.convertToF(data.main.temp_max));
+                          } else {
+                              $('#temp').text(scope.convertToF(data.main.temp));
+                              $('#temp_min').text(scope.convertToF(data.main.temp_min));
+                              $('#temp_max').text(scope.convertToF(data.main.temp_max));
 
+                          }
                         }
+
                     };
 
                     scope.populateDailyWeather = function(value) {
