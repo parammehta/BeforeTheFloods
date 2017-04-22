@@ -5,10 +5,14 @@
     angular.module('d3App')
         .controller('co2DataController', ['$rootScope', '$scope', '$location', 'serviceCall', 'activeData', '$timeout', '$log', '$compile', 'myConstants', '$anchorScroll', function($rootScope, $scope, $location, serviceCall, activeData, $timeout, $log, $compile, myConstants, $anchorScroll) {
 
-            $scope.yearsInCO2 = [1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013];
-            $scope.selectedYear = '';
+            $scope.yearsInCO2 = [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013];
+            $scope.selectedYear = 1995;
+            $scope.type = 'Country';
             $scope.controllerInit = function() {
                 $('#co2Data').removeClass('hidden');
+                $timeout(function() {
+                    $scope.renderVis($scope.selectedYear, $scope.type);
+                });
             };
             $scope.scrollTo = function(id) {
                 console.log("scroll to " + id);
@@ -18,9 +22,20 @@
                 });
             };
 
-            $scope.optionSelected = function () {
-              console.log($scope.selectedYear);
-              $scope.renderVis($scope.selectedYear);
+            $scope.optionSelected = function() {
+                console.log($scope.selectedYear);
+                $scope.renderVis($scope.selectedYear, $scope.type);
+            };
+
+            $scope.selectionChanged = function() {
+                $scope.renderVis($scope.selectedYear, $scope.type);
+            };
+
+            $scope.openForestChart = function() {
+                $scope.changePage('forestData');
+            };
+            $scope.changePage = function(path) {
+                $location.path(path);
             };
 
             $scope.controllerInit();
@@ -32,118 +47,119 @@
                 restrict: 'E',
                 terminal: true,
                 link: function(scope, element, attrs) {
-                    scope.renderVis = function (selectedYear) {
-                      d2.csv("../data/co2data.csv", function(rawdata) {
-                          console.log(rawdata);
-                          var allyearObjects = [];
+                    scope.renderVis = function(selectedYear, type) {
+                        var source = '';
+                        if (type === 'Country') {
+                            source = "../data/co2data.csv";
+                        } else {
+                            source = "../data/source-wise_co2.csv";
+                        }
+                        d2.csv(source, function(rawdata) {
+                            console.log(rawdata);
+                            var allyearObjects = [];
+                            // d2.selectAll("svg").remove();
+                            var tooltip = d3.select("#bubbleChart")
+                                .append("div")
+                                .style("position", "absolute")
+                                .style("z-index", "10")
+                                .style("visibility", "hidden")
+                                .style("color", "white")
+                                .style("padding", "8px")
+                                .style("background-color", "rgba(0, 0, 0, 0.75)")
+                                .style("border-radius", "6px")
+                                .style("font", "12px sans-serif")
+                                .text("tooltip"),
+                                color = d2.scale.category20c();
+                            var compare = function(a, b) {
 
-                          var tooltip = d3.select("#bubbleChart")
-                              .append("div")
-                              .style("position", "absolute")
-                              .style("z-index", "10")
-                              .style("visibility", "hidden")
-                              .style("color", "white")
-                              .style("padding", "8px")
-                              .style("background-color", "rgba(0, 0, 0, 0.75)")
-                              .style("border-radius", "6px")
-                              .style("font", "12px sans-serif")
-                              .text("tooltip"),
-                              color = d2.scale.category20c();
-                          var compare = function(a, b) {
+                                if (a.value < b.value) {
+                                    return 1;
+                                } else if (a.value > b.value) {
+                                    return -1;
+                                } else {
+                                    return 0;
+                                }
+                            }
 
-                              if (a.value < b.value) {
-                                  return 1;
-                              } else if (a.value > b.value) {
-                                  return -1;
-                              } else {
-                                  return 0;
-                              }
-                          }
+                            var finalObject = "";
+                            rawdata.forEach(function(d) {
 
-                          var finalObject = "";
-                          rawdata.forEach(function(d) {
+                                var children = [];
+                                for (var key in d) {
+                                    var obj = {};
+                                    if (key == "Year") {
+                                        continue;
+                                    }
+                                    d[key] = parseFloat(d[key]) / 1000;
+                                    obj["name"] = key;
+                                    obj["value"] = d[key];
+                                    children.push(obj);
+                                }
 
-                              var children = [];
-                              for (var key in d) {
-                                  var obj = {};
-                                  if (key == "Year") {
-                                      continue;
-                                  }
-                                  d[key] = parseFloat(d[key]) / 1000;
-                                  obj["name"] = key;
-                                  obj["value"] = d[key];
-                                  children.push(obj);
-                              }
+                                children.sort(compare);
+                                var finalChildren = [];
+                                for (var count = 0; count < children.length; count++) {
 
-                              children.sort(compare);
-                              var finalChildren = [];
-                              for (var count = 0; count < 100; count++) {
+                                    finalChildren[count] = children[count];
+                                }
 
-                                  finalChildren[count] = children[count];
-                              }
-
-
-
-                              var childrenObj = {};
-                              childrenObj["children"] = finalChildren;
-                              childrenObj["name"] = "XYZ";
-                              childrenObj["value"] = 60;
-                              finalObject = childrenObj;
-                              allyearObjects.push(finalObject);
-                          });
-
-
-                          var width = 800,
-                              height = 600;
-                              d2.selectAll("svg > *").remove();
-
-                          var chart = d2.select("#bubbleChart")
-                              .append("svg")
-                              .attr("width", width)
-                              .attr("height", height)
-                              .append("g")
-                              .attr("transform", "translate(50,50)");
-
-                          var pack = d2.layout.pack()
-                              .size([width, height - 50])
-                              .padding(10);
-
-                          var data = allyearObjects[selectedYear - 1995];
-                          var nodes = pack.nodes(data);
-
-                          var node = chart.selectAll(".node")
-                              .data(nodes).enter()
-                              .append("g")
-                              .attr("class", "node")
-                              .attr("transform", function(d) {
-                                  return "translate(" + d.x + "," + d.y + ")";
-                              });
-
-                          node.append("circle")
-                              .attr("r", function(d) {
-                                  return d.r;
-                              })
-                              .attr("fill", function(d) {
-                                  return color(d.name);
-                              }) //make nodes with children invisible
-                              .attr("opacity",1)
-
-                              .attr("stroke-width", 2)
-                              .on("mouseover", function(d) {
-                                  tooltip.text(d.name);
-                                  tooltip.style("visibility", "visible");
-                              })
-                              .on("mousemove", function() {
-                                  return tooltip.style("top", (d2.event.pageY - 10) + "px").style("left", (d2.event.pageX + 10) + "px");
-                              })
-                              .on("mouseout", function() {
-                                  return tooltip.style("visibility", "hidden");
-                              });
-
-                          //
+                                var childrenObj = {};
+                                childrenObj["children"] = finalChildren;
+                                childrenObj["name"] = scope.selectedYear + ' CO2 Data Visualization Country-wise';
+                                childrenObj["value"] = 60;
+                                finalObject = childrenObj;
+                                allyearObjects.push(finalObject);
+                            });
 
 
-                      });
+                            var width = 800,
+                                height = 600;
+
+
+                            var chart = d2.select("#bubbleChart")
+                                .append("svg")
+                                .attr("width", width)
+                                .attr("height", height)
+                                .append("g")
+                                .attr("transform", "translate(50,50)");
+
+                            var pack = d2.layout.pack()
+                                .size([width, height - 50])
+                                .padding(10);
+                            console.log(allyearObjects);
+                            var data = allyearObjects[scope.selectedYear - 1995];
+                            var nodes = pack.nodes(data);
+
+                            var node = chart.selectAll(".node")
+                                .data(nodes).enter()
+                                .append("g")
+                                .attr("class", "node")
+                                .attr("transform", function(d) {
+                                    return "translate(" + d.x + "," + d.y + ")";
+                                });
+
+                            node.append("circle")
+                                .attr("r", function(d) {
+                                    return d.r;
+                                })
+                                .attr("fill", function(d) {
+                                    return color(d.name);
+                                }) //make nodes with children invisible
+                                .attr("opacity", 1)
+
+                                .attr("stroke-width", 2)
+                                .on("mouseover", function(d) {
+                                    tooltip.text(d.name);
+                                    tooltip.style("visibility", "visible");
+                                })
+                                .on("mousemove", function() {
+                                    return tooltip.style("top", (d2.event.pageY - 10) + "px").style("left", (d2.event.pageX + 10) + "px");
+                                })
+                                .on("mouseout", function() {
+                                    return tooltip.style("visibility", "hidden");
+                                });
+
+                        });
                     };
 
                 }

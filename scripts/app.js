@@ -25,6 +25,10 @@
           templateUrl: "partials/co2Data.html",
           controller: "co2DataController"
         })
+        .when("/forestData", {
+          templateUrl: "partials/forestData.html",
+          controller: "forestDataController"
+        })
         .otherwise({
            redirectTo: '/'
         });
