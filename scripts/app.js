@@ -29,6 +29,10 @@
           templateUrl: "partials/forestData.html",
           controller: "forestDataController"
         })
+        .when("/greenhousegas", {
+          templateUrl: "partials/greenhousegas.html",
+          controller: "greenhousegasController"
+        })
         .otherwise({
            redirectTo: '/'
         });

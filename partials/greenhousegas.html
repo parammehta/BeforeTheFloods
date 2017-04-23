@@ -1,0 +1,935 @@
+<br />
+<br />
+
+<style>
+
+
+    img {
+        border: none;
+    }
+
+    a:link,
+    a:visited {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    a:hover,
+    a:active {
+        color: inherit;
+        text-decoration: underline;
+    }
+
+    .underlined-links a:link,
+    .underlined-links a:visited {
+        color: inherit;
+        text-decoration: underline;
+    }
+
+    .underlined-links a:hover,
+    .underlined-links a:active {
+        color: inherit;
+        opacity: 0.6;
+    }
+
+    .btn {
+        background: #aaa;
+        color: white;
+        height: 1.4em;
+        display: inline-block;
+        text-align: center;
+        padding: 0.25em 0.4em;
+        cursor: pointer;
+        vertical-align: top;
+        border-right: rgba(255, 255, 255, 0.3) 1px solid;
+        line-height: 1.1;
+    }
+
+    .btn:first-of-type {
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+
+    .btn:last-of-type {
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .btn:hover {
+        background: #777;
+    }
+
+    .btn.selected {
+        background: black;
+    }
+
+    #wrapper {
+        width: 100%;
+        height: auto;
+        background: white;
+        margin: 0px auto;
+        position: relative;
+        overflow: hidden;
+        display: none;
+        background: #DFEBCC;
+    }
+
+    #sources {
+        position: absolute;
+        width: 200px;
+        padding: 20px;
+        height: 100%;
+        overflow: hidden;
+        background: #666;
+        color: white;
+        line-height: 1.2;
+        top: 0;
+        overflow: scroll;
+        display: none;
+    }
+
+    #sources .fa-times {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+    }
+
+    #sources .fa-times:hover {
+        color: #aaa;
+    }
+
+    #sources h1 {
+        font-size: 16px;
+    }
+
+    #sources p {
+        font-size: 13px;
+    }
+
+    #topbar {
+        position: absolute;
+        text-align: center;
+        background: #CCECF4;
+        padding: 10px;
+        width: 100%;
+        z-index: 200;
+        height: 50px;
+        top: 0;
+        left: 0;
+        border-bottom: rgba(0, 0, 0, 0.1) 1px dotted;
+    }
+
+    #topbar #steps {
+        position: relative;
+        width: 100%;
+        font-size: 20px;
+    }
+
+    #main {
+        position: relative;
+        width: 100%;
+        padding-bottom: 60%;
+        left: 0;
+        height: 0;
+        margin-top: 50px;
+    }
+
+    #main #svg-holder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    #main #svg-holder svg {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+
+    svg #sky {
+        padding-top: 50px;
+        fill: #CCECF4;
+    }
+
+    svg .cloud {
+        font-family: FontAwesome;
+        fill: white;
+        font-size: 100px;
+    }
+
+    svg #earth {
+        fill: #DFEBCC;
+    }
+
+    svg #budget {
+        fill: #fafafa;
+        opacity: 0.8;
+        stroke: #fafafa;
+        stroke-width: 2;
+    }
+
+    svg #cumulative {
+        fill: #111;
+        opacity: 0.9;
+    }
+
+    svg #cumulative-breakdown text {
+        font-size: 14px;
+        fill: white;
+        pointer-events: none;
+    }
+
+    svg #budget-text {
+        text-anchor: middle;
+        font-size: 45px;
+    }
+
+    svg #emissions-text {
+        text-anchor: middle;
+        font-size: 80px;
+    }
+
+    svg #year-label,
+    #emissions-year {
+        font-weight: bold;
+    }
+
+    svg #emissions-label {
+        font-size: 24px;
+    }
+
+    svg #emissions-label-note {
+        font-size: 16px;
+    }
+
+    svg #budget-label {
+        font-size: 20px;
+    }
+
+    svg #emissions-year {
+        fill: white;
+    }
+
+    svg .axis .domain {
+        stroke: white;
+        stroke-width: 0;
+    }
+
+    svg .axis .tick line {
+        stroke: white;
+        stroke-width: 1;
+    }
+
+    svg .axis text {
+        fill: #666;
+    }
+
+    svg .country {
+        cursor: default;
+    }
+
+    svg .country circle.shadow {
+        fill: #999;
+    }
+
+    svg .country:hover circle.shadow,
+    svg .country:hover polygon,
+    svg .country:hover text {
+        fill: black;
+        opacity: 1 !important;
+    }
+
+    #controls {
+        width: 100%;
+        position: relative;
+        border-top: rgba(0, 0, 0, 0.1) 1px dotted;
+        left: 0px;
+        font-size: 14px;
+        background: #DFEBCC;
+        text-align: center;
+        line-height: 40px;
+    }
+
+    #controls #sorters {
+        display: inline-block;
+        margin: 15px 3%;
+        width: 180px;
+        line-height: 1.2;
+        position: relative;
+    }
+
+    #controls #sorters #sort-label {
+        display: inline-block;
+        vertical-align: bottom;
+        margin-right: 8px;
+    }
+
+    #controls #sorters #sort-buttons {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    #controls #slider {
+        display: inline-block;
+        position: relative;
+        padding-top: 0px;
+        text-align: center;
+    }
+
+    #controls .slider-label,
+    #slider-core {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    #controls .slider-label {
+        padding: 5px 15px 0;
+        fill: #444;
+    }
+
+    #controls #slider-core {
+        width: 150px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    #controls .slider-handle {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #d3d3d3;
+        border-radius: 50%;
+        background: #231F20;
+        background: linear-gradient(to bottom, #231F20 0%, #000 100%);
+        top: -8px;
+        margin-left: -12px;
+        cursor: col-resize;
+    }
+
+    #controls .slider-handle:hover {
+        border: 1px solid #999999;
+    }
+
+    #controls .slider-track {
+        position: relative;
+        border: 1px solid #aaaaaa;
+        height: 3px;
+        top: 4px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.3);
+        border: solid 1px rgba(0, 0, 0, 0.1);
+    }
+
+    #controls #slider #loop {
+        display: inline-block;
+        cursor: pointer;
+        vertical-align: middle;
+        padding-top: 5px;
+    }
+
+    #controls #slider #loop:hover {
+        color: #777;
+    }
+
+    #footer {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        left: 0px;
+        background: #f9f9f9;
+        z-index: 2;
+    }
+
+    #footer #wri-logo {
+        position: absolute;
+        left: 9px;
+        top: 9px;
+        width: 40%;
+        max-width: 250px;
+        min-width: 200px;
+    }
+
+    #footer #wri-logo:hover {
+        opacity: 0.8;
+    }
+
+    #footer #embed {
+        position: absolute;
+        right: 145px;
+        top: 10px;
+    }
+
+    #footer #embed-link {
+        background: #eee;
+        padding: 0.3em 0.45em;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        height: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #444;
+        cursor: pointer;
+    }
+
+    #footer #embed-link:hover {
+        background: #ddd;
+    }
+
+    #footer #embed-popup {
+        position: absolute;
+        bottom: 30px;
+        right: 0%;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 7px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        width: 225px;
+        display: none;
+    }
+
+    #footer p {
+        margin-top: 0;
+        font-size: 15px;
+    }
+
+    #footer textarea {
+        width: 100%;
+        height: 5em;
+        line-height: 1.2em;
+        resize: none;
+    }
+
+    #footer .twitter-share-button {
+        position: absolute !important;
+        right: 15px;
+        top: 10px;
+    }
+
+    #footer .fb-share-button {
+        position: absolute;
+        right: 80px;
+        top: 10px;
+    }
+
+    #infobox {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        min-width: 120px;
+        line-height: 1.1em;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        height: auto;
+        padding: 10px 10px 5px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 5px;
+        opacity: 0;
+        pointer-events: none;
+        /* Note this means that it's slightly less good in IE, since hovering over the infobox will block access to countries below */
+    }
+
+    #infobox-country {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    #infobox-stat {
+        font-size: 15px;
+    }
+
+    #infobox-rank {
+        font-size: 15px;
+        color: #777;
+    }
+
+    #intro {
+        width: 100%;
+        position: absolute;
+        padding: 0 100px;
+        bottom: 60px;
+    }
+
+    #intro-inner {
+        width: 100%;
+        max-width: 840px;
+        margin: auto;
+    }
+
+    #intro h1 {
+        font-size: 45px;
+        font-weight: normal;
+        margin: 0;
+        left: 0;
+        line-height: 1.2em;
+    }
+
+    #intro p {
+        font-size: 24px;
+        margin: 5px 0 0;
+        line-height: 1.2em;
+    }
+
+    #step-1-text {
+        top: -80px;
+        display: none;
+    }
+
+    #step-2-text {
+        top: -80px;
+        display: none;
+    }
+
+    #scenarios {
+        width: 100%;
+        margin: auto;
+        position: absolute;
+        bottom: -400px;
+        left: 0;
+        padding: 0 80px;
+        text-align: center;
+        display: table-row;
+    }
+
+    .scenario-group {
+        width: 42%;
+        height: 100%;
+        display: table-cell;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+    }
+
+    .scenario-group:hover {
+        background: rgba(255, 255, 255, 1);
+    }
+
+    .scenario-group-spacer {
+        display: table-cell;
+        width: 16%;
+        background: none;
+    }
+
+    .scenario {
+        padding: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+        line-height: 1.2;
+        height: 100%;
+    }
+
+    .scenario-group.selected,
+    .scenario-group.selected:hover {
+        background: rgba(150, 150, 150, 0.35);
+        cursor: default;
+    }
+
+    .scenario h2 {
+        margin: 0;
+        line-height: 1.1;
+        font-size: 24px;
+    }
+
+    .scenario p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    .explainer {
+        font-size: 14px;
+    }
+
+    #sources-button {
+        position: absolute;
+        top: 12px;
+        left: 8px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 12px;
+    }
+
+    #credit {
+        position: absolute;
+        top: 12px;
+        right: 8px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 12px;
+    }
+
+    #credit a,
+    #credit img {
+        border: 0;
+    }
+
+    #credit img:hover {
+        opacity: 0.8;
+    }
+
+    #play-button-placeholder {
+        display: none;
+        position: absolute;
+        right: 50%;
+        bottom: 50%;
+        width: 150px;
+        height: 150px;
+        margin-right: -75px;
+        margin-bottom: -25px;
+        opacity: 0.9;
+    }
+
+    #play-button {
+        position: absolute;
+        right: 50%;
+        bottom: 50%;
+        width: 150px;
+        height: 150px;
+        margin-right: -75px;
+        margin-bottom: -25px;
+        opacity: 0.9;
+    }
+
+    #play-button:hover {
+        opacity: 1;
+    }
+
+    #play-icon {
+        display: block;
+        stroke: none;
+        fill: white;
+    }
+
+    #pause-icon {
+        display: none;
+        stroke: none;
+        fill: white;
+    }
+
+    #talkie-player-inner {
+        cursor: pointer;
+    }
+
+    #talkie-player-segment {
+        stroke: white;
+        fill: #eee;
+        pointer-events: none;
+    }
+
+    @media only screen and (min-width: 1100px) {
+        #intro {
+            bottom: 100px;
+        }
+    }
+
+    @media only screen and (max-width: 950px) {
+        #play-button-placeholder {
+            width: 120px;
+            height: 120px;
+            margin-right: -60px;
+            margin-bottom: -30px;
+        }
+
+        #play-button {
+            width: 120px;
+            height: 120px;
+            margin-right: -60px;
+            margin-bottom: -30px;
+        }
+
+        #intro {
+            padding: 0 85px;
+            bottom: 50px;
+            text-align: center;
+        }
+
+        #intro h1 {
+            font-size: 40px;
+        }
+
+        #intro p {
+            font-size: 22px;
+        }
+    }
+
+    @media only screen and (max-width: 850px) {
+        #play-button-placeholder {
+            width: 100px;
+            height: 100px;
+            margin-right: -50px;
+            margin-bottom: -20px;
+        }
+
+        #play-button {
+            width: 100px;
+            height: 100px;
+            margin-right: -50px;
+            margin-bottom: -20px;
+        }
+
+        #intro {
+            padding: 0 70px;
+            bottom: 40px;
+        }
+
+        #intro h1 {
+            font-size: 32px;
+        }
+
+        #intro p {
+            font-size: 20px;
+        }
+
+        #scenarios {
+            padding: 0 70px;
+        }
+
+        .scenario h2 {
+            font-size: 20px;
+        }
+
+        .scenario p {
+            font-size: 15px;
+        }
+    }
+
+    @media only screen and (max-width: 650px) {
+        #play-button-placeholder {
+            width: 80px;
+            height: 80px;
+            margin-right: -40px;
+            margin-bottom: -20px;
+        }
+
+        #play-button {
+            width: 80px;
+            height: 80px;
+            margin-right: -40px;
+            margin-bottom: -20px;
+        }
+
+        #intro {
+            bottom: 80px;
+        }
+
+        #intro h1 {
+            font-size: 24px;
+        }
+
+        #intro p {
+            font-size: 16px;
+        }
+
+        #scenarios {
+            padding: 0 8%;
+        }
+
+        .scenario h2 {
+            font-size: 16px;
+        }
+
+        .scenario p {
+            font-size: 14px;
+        }
+
+        .hide-narrow {
+            display: none;
+        }
+    }
+
+    @media only screen and (max-width: 550px) {
+        #play-button-placeholder {
+            width: 80px;
+            height: 80px;
+            margin-right: -40px;
+            margin-bottom: -40px;
+        }
+
+        #play-button {
+            width: 80px;
+            height: 80px;
+            margin-right: -40px;
+            margin-bottom: -40px;
+        }
+
+        #intro {
+            padding: 0 50px;
+            bottom: 50px;
+        }
+
+        #intro h1 {
+            font-size: 20px;
+        }
+
+        #intro p {
+            font-size: 15px;
+        }
+
+        #scenarios {
+            margin-bottom: 0px;
+        }
+
+        .scenario {
+            padding: 5px;
+        }
+
+        .scenario h2 {
+            font-size: 14px;
+        }
+
+        .scenario p {
+            font-size: 13px;
+        }
+
+        .hide-narrow {
+            display: none;
+        }
+
+        #controls #slider #loop {
+            display: none;
+        }
+
+        #topbar {
+            text-align: right;
+        }
+
+        #credit {
+            position: absolute;
+            top: 25px;
+            right: auto;
+            left: 8px;
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 12px;
+        }
+
+        #topbar #steps {
+            font-size: 16px;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+        #intro {
+            padding: 0 40px;
+            bottom: 25px;
+        }
+
+        #scenarios {
+            margin-bottom: -10px;
+        }
+
+        .scenario h2 {
+            font-size: 13px;
+        }
+
+        .scenario p {
+            font-size: 11px;
+        }
+
+        #footer {
+            height: 64px;
+        }
+
+        #footer #embed {
+            top: 33px;
+            right: auto;
+            left: 10px;
+        }
+
+        #footer #embed-popup {
+            right: auto;
+            left: 0px;
+        }
+
+        #footer .fb-share-button {
+            position: absolute;
+            right: 14px;
+            top: 36px;
+        }
+    }
+
+    @media only screen and (max-width: 450px) {
+        #intro {
+            padding: 0 30px;
+            bottom: 10px;
+        }
+
+        #scenarios {
+            margin-bottom: -20px;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        #intro {
+            padding: 0 30px;
+            bottom: 10px;
+        }
+
+        .scenario {
+            margin-top: 5px;
+        }
+
+        .scenario p {
+            display: none;
+        }
+    }
+</style>
+<div class="part hidden" id="greenhousegas" style="border-top: 0">
+    <green-house-gas>
+        <div id="main">
+
+            <div id="svg-holder"></div>
+            <div id="infobox">
+                <div id="infobox-country"></div>
+                <div id="infobox-stat"></div>
+                <div id="infobox-rank"></div>
+            </div>
+
+            <div id="intro">
+                <div id="intro-inner" class="underlined-links">
+                    <h1>The&nbsp;past,&nbsp;present&nbsp;and future&nbsp;of&nbsp;CO&#x2082;</h1>
+                    <p><span class="hide-narrow">This interactive visualization, based on data from WRI&rsquo;s <a
+              target="_top" href="http://cait2.wri.org">CAIT</a> and the IPCC, shows how national CO&#x2082; emissions have changed over the last 150 years, how much of the global carbon budget these emissions have used up, and what the future might hold.</span>                        Click play to watch or use the controls&nbsp;below&nbsp;to&nbsp;explore.</p>
+                </div>
+            </div>
+
+            <div id="scenarios">
+                <div class="scenario-group" data-scenario-index="0">
+                    <div class="scenario">
+                        <h2>Fossil fuel intensive</h2>
+                        <p>Global emissions of CO₂ keep growing at roughly current rates.<span class="hide-narrow"> Reflects the IPCC RCP8.5 scenario.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="scenario-group-spacer"></div>
+                <div class="scenario-group" data-scenario-index="3">
+                    <div class="scenario">
+                        <h2>Transformative change</h2>
+                        <p>CO₂ emissions fall quickly from 2020 and go negative in the 2080s.<span class="hide-narrow"> Reflects the IPCC RCP2.6 scenario</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="controls">
+            <div id="slider" class="hideable-controls">
+                <div id="slider-start-year" class="slider-label">1860</div>
+                <ownerSVGElementdiv id="slider-core">
+                    <div class="slider-track"></div>
+                    <a class="slider-handle" href="#" style="left: 0;"></a>
+            </div>
+            <div id="slider-end-year" class="slider-label">2011</div>
+            <div id="loop">
+                <i id="loop-icon" class="fa fa-repeat"></i><span> Loop</span>
+            </div>
+        </div>
+</div>
+</green-house-gas>
+</div>
+
+<div class="content-section-c">
+    <div class="container">
+        <p style="color:white; font-size: 20px">
+
+            <a class="btn btn-danger" type="button" ng-click="openForestChart()">Next page</a>
+        </p>
+        <br /><br />
+    </div>
+</div>
