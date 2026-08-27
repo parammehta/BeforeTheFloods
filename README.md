@@ -4,6 +4,8 @@ An interactive visual story about CO₂ emissions, air pollution, and land use �
 originally built in 2017 with AngularJS and d3 v3/v4, rebuilt in 2026 as a
 static Vite + d3 v7 site.
 
+**[before-the-floods.vercel.app](https://before-the-floods.vercel.app)**
+
 ## Sections
 
 - **Weather** — live current conditions and a 5-day forecast for any city
