@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Before the Floods — when is it too late?</title>
+    <meta
+      name="description"
+      content="An interactive visual story about CO₂ emissions, air pollution and land use, built with d3."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🌊</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Arvo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#introduction">Skip to content</a>
+
+    <!-- ------------------------------------------------------------- hero -->
+    <header class="hero" data-hero>
+      <video
+        class="hero__video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        poster="/images/beijing_before.png"
+        aria-hidden="true"
+      >
+        <source src="/media/hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__scrim"></div>
+
+      <div class="hero__body">
+        <h1 class="hero__title">Before the Floods</h1>
+        <p class="hero__tagline">When is it too late?</p>
+        <a class="button button--ghost" href="https://github.com/parammehta/BeforeTheFloods">
+          View on GitHub
+        </a>
+      </div>
+
+      <a class="hero__scroll" href="#introduction" aria-label="Scroll to the introduction">
+        <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.5" />
+          <path d="M8 11l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </a>
+    </header>
+
+    <!-- -------------------------------------------------------------- nav -->
+    <nav class="nav" data-nav aria-label="Sections">
+      <div class="nav__inner">
+        <a class="nav__brand" href="#top">Before the Floods</a>
+
+        <button
+          class="nav__toggle"
+          type="button"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
+          <span class="visually-hidden">Toggle navigation</span>
+          <span class="nav__bars" aria-hidden="true"></span>
+        </button>
+
+        <ul class="nav__list" id="nav-list" data-nav-list>
+          <li><a data-nav-link href="#introduction">Introduction</a></li>
+          <li><a data-nav-link href="#weather">Weather</a></li>
+          <li><a data-nav-link href="#pollution">Pollution</a></li>
+          <li><a data-nav-link href="#co2">CO₂</a></li>
+          <li><a data-nav-link href="#greenhouse">Carbon budget</a></li>
+          <li><a data-nav-link href="#forest">Land use</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ----------------------------------------------------- introduction -->
+      <section class="section" id="introduction">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Introduction</h2>
+            <p class="section__lead">Will we survive before the floods?</p>
+          </header>
+
+          <div class="split">
+            <div class="prose">
+              <p>
+                Global warming is one of the biggest problems the world faces. The atmosphere is
+                being damaged by rising greenhouse gas emissions, the physical impacts are
+                growing, and something has to be done before the damage compounds further.
+              </p>
+              <p>
+                This is a user-interactive story about weather, pollution and land use. It starts
+                with a city of your choosing, so you can see the climate and pollution picture
+                where you live, then widens out to the national and global scale.
+              </p>
+            </div>
+
+            <figure class="compare">
+              <div class="compare__frame">
+                <img src="/images/beijing_before.png" alt="Beijing skyline on a clear day" width="800" height="450" loading="lazy" />
+                <img src="/images/beijing_after.png" alt="The same Beijing skyline under heavy smog" width="800" height="450" loading="lazy" class="compare__overlay" />
+              </div>
+              <input
+                class="compare__range"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                aria-label="Reveal the smog-covered photograph"
+                oninput="this.closest('.compare').style.setProperty('--split', this.value + '%')"
+              />
+              <figcaption>Beijing, clear air and heavy smog. Drag to compare.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------- weather -->
+      <section class="section section--alt" id="weather">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Your weather</h2>
+            <p class="section__lead">
+              Current conditions and a five day forecast for any city.
+            </p>
+          </header>
+
+          <div class="weather__controls">
+            <div class="weather__search-slot" data-place-search></div>
+            <button class="button" type="button" data-unit-toggle>Show °F</button>
+          </div>
+
+          <p class="notice" data-weather-status hidden></p>
+
+          <div class="weather__panel" data-weather-panel hidden>
+            <h3 class="weather__city" data-weather-city></h3>
+            <p class="weather__summary" data-weather-summary></p>
+            <div class="metrics" data-weather-metrics></div>
+            <div class="chart-frame" data-forecast-chart></div>
+          </div>
+
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------- pollution -->
+      <section class="section" id="pollution">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Pollution index</h2>
+            <p class="section__lead">
+              Mean annual exposure to PM2.5, by country<span data-pollution-range></span>. Hover a
+              line to highlight a country; click to pin it.
+            </p>
+          </header>
+
+          <div class="chart-frame" data-chart></div>
+          <p class="credit">Data: The World Bank</p>
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------- co2 -->
+      <section class="section section--alt" id="co2">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Where the CO₂ comes from</h2>
+            <p class="section__lead">
+              Every circle is one country or one sector, sized by annual emissions.
+            </p>
+          </header>
+
+          <div class="controls">
+            <div class="control">
+              <label class="control__label" for="co2-year">
+                Year <output data-co2-year-label>1995</output>
+              </label>
+              <input
+                class="control__range"
+                id="co2-year"
+                type="range"
+                min="1990"
+                max="1990"
+                step="1"
+                value="1990"
+                data-co2-year
+              />
+            </div>
+
+            <fieldset class="control control--radios">
+              <legend class="control__label">Break down by</legend>
+              <label><input type="radio" name="co2-kind" value="country" data-co2-kind checked /> Country</label>
+              <label><input type="radio" name="co2-kind" value="source" data-co2-kind /> Source sector</label>
+            </fieldset>
+          </div>
+
+          <div class="chart-frame chart-frame--square" data-chart></div>
+          <p class="credit">Values in megatonnes of CO₂. Data: Our World in Data.</p>
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------- greenhouse gas -->
+      <section class="section section--dark" id="greenhouse">
+        <div class="wrap wrap--wide">
+          <header class="section__head">
+            <h2>The past, present and future of CO₂</h2>
+            <p class="section__lead">
+              How national emissions have changed over 150 years, how much of the global carbon
+              budget they have used, and what the scenarios hold.
+            </p>
+          </header>
+
+          <div class="ghg" data-ghg-main>
+            <div class="ghg__stage" data-svg-holder></div>
+
+            <div class="ghg__infobox" data-infobox>
+              <div class="ghg__infobox-country" data-infobox-country></div>
+              <div class="ghg__infobox-stat" data-infobox-stat></div>
+              <div class="ghg__infobox-rank" data-infobox-rank></div>
+            </div>
+
+            <div class="ghg__intro" data-ghg-intro>
+              <p>
+                Based on data from WRI's
+                <a href="https://www.wri.org/data/cait-climate-data-explorer" target="_blank" rel="noopener">CAIT</a>
+                and the IPCC. Press play to watch, or use the controls below to explore.
+              </p>
+            </div>
+
+            <div class="ghg__scenarios" data-ghg-scenarios>
+              <div class="scenario-group" data-scenario-index="0" role="button" tabindex="0">
+                <h3>Fossil fuel intensive</h3>
+                <p>Global CO₂ emissions keep growing at roughly current rates. IPCC RCP8.5.</p>
+              </div>
+              <div class="scenario-group" data-scenario-index="3" role="button" tabindex="0">
+                <h3>Transformative change</h3>
+                <p>Emissions fall quickly from 2020 and go negative in the 2080s. IPCC RCP2.6.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ghg__controls">
+            <div class="ghg__steps">
+              <button class="chip" type="button" data-step="1">1 · Intro</button>
+              <button class="chip" type="button" data-step="2">2 · Emitters</button>
+              <button class="chip" type="button" data-step="3">3 · Budget</button>
+              <button class="chip" type="button" data-step="4">4 · Scenarios</button>
+            </div>
+
+            <div class="ghg__slider hideable-controls">
+              <span class="ghg__year" data-slider-start>1860</span>
+              <div class="slider" data-slider-core>
+                <div class="slider__track"></div>
+                <button
+                  class="slider__handle"
+                  type="button"
+                  data-slider-handle
+                  role="slider"
+                  aria-label="Year"
+                  aria-valuemin="1860"
+                  aria-valuemax="2011"
+                  aria-valuenow="1860"
+                ></button>
+              </div>
+              <span class="ghg__year" data-slider-end>2011</span>
+            </div>
+
+            <div class="ghg__buttons">
+              <button class="chip" type="button" data-loop aria-pressed="false">
+                <span>Play</span>
+              </button>
+              <span class="ghg__sort">
+                Sort:
+                <button class="chip" type="button" data-sort="CO2">By emissions</button>
+                <button class="chip" type="button" data-sort="continents">By continent</button>
+              </span>
+            </div>
+          </div>
+
+          <p class="credit">
+            Historical emissions: Our World in Data. Projections: the IPCC RCP scenarios,
+            carried over from the 2017 WRI CAIT release used in the original visualisation.
+          </p>
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------------- forest -->
+      <section class="section" id="forest">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Forest and farmland</h2>
+            <p class="section__lead">
+              Hover a country for its split of forest, agriculture and other land.
+            </p>
+          </header>
+
+          <div class="controls">
+            <button class="button" type="button" data-map-toggle aria-pressed="false">
+              Show agricultural land
+            </button>
+            <p class="control__caption" data-map-caption>Forest area (% of total land area)</p>
+          </div>
+
+          <div class="chart-frame" data-chart></div>
+          <p class="credit">Data: The World Bank</p>
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <p>
+          Before the Floods — a data visualisation project, originally built in 2017 and rebuilt
+          in <span data-year>2026</span>.
+        </p>
+        <p class="credit">
+          Sources: The World Bank, WRI CAIT, the IPCC, and OpenWeatherMap.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

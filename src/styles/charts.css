@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Shared chart chrome: axes, hover surfaces, tooltips.
+
+   The 2017 build put a <style> block inside each partial, so `path { stroke:
+   #ccc }` from the pollution chart leaked onto the world map and the balloons.
+   Everything here is scoped under a chart class.
+   ========================================================================== */
+
+.chart-frame {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+}
+.chart-frame--square {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  overflow: visible;
+}
+
+.chart__surface {
+  fill: none;
+  pointer-events: all;
+}
+
+.axis line,
+.axis path {
+  stroke: var(--line);
+}
+.axis text {
+  fill: var(--ink-soft);
+}
+.axis__title {
+  fill: var(--ink-soft);
+  font-size: 12px;
+}
+
+.chart__tooltip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background: rgb(12 22 30 / 88%);
+  color: #fff;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.chart__picker {
+  margin-top: 0.75rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  max-width: 100%;
+}
+
+/* -------------------------------------------------------- pollution lines */
+
+.chart--lines .line {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.25;
+  cursor: pointer;
+  transition: stroke 0.12s, stroke-width 0.12s;
+}
+.chart--lines .line.is-pinned {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.chart--lines .line.is-active {
+  stroke: #e23b2e;
+  stroke-width: 3;
+}
+.chart--lines .line__label {
+  fill: #e23b2e;
+  font-weight: 700;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------- co2 bubbles -- */
+
+.chart--bubbles .bubble circle {
+  stroke: var(--paper);
+  stroke-width: 1;
+  cursor: pointer;
+}
+.chart--bubbles .bubble:hover circle {
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+/* ----------------------------------------------------------- forest map -- */
+
+.chart--map {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-radius: var(--radius);
+}
+.map__country {
+  stroke: var(--paper);
+  stroke-width: 0.4;
+  cursor: pointer;
+}
+.map__country:hover {
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+.map__legend-label,
+.map__donut-title {
+  fill: var(--ink-soft);
+  font-size: 12px;
+}
+.map__donut-title {
+  fill: var(--ink);
+  font-weight: 700;
+  font-size: 13px;
+}
+.map__overlay {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- forecast -- */
+
+.chart--forecast .forecast__band {
+  fill: color-mix(in srgb, #f59e0b 25%, transparent);
+}
+.chart--forecast .forecast__line {
+  fill: none;
+  stroke: #f97316;
+  stroke-width: 2.5;
+}
+.chart--forecast .forecast__crosshair {
+  stroke: var(--ink-soft);
+  stroke-dasharray: 3 3;
+}
+.chart--forecast .forecast__dot {
+  fill: var(--paper);
+  stroke: #f97316;
+  stroke-width: 2;
+}
+.chart--forecast .forecast__readout {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+}

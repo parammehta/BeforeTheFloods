@@ -1,0 +1,13 @@
+{
+  "generated": "2026-08-27",
+  "pm25": {
+    "first": 1990,
+    "last": 2023
+  },
+  "forest": {
+    "last": 2023
+  },
+  "emissions": {
+    "last": 2024
+  }
+}

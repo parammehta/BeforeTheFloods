@@ -1,0 +1,260 @@
+/* ==========================================================================
+   "The past, present and future of CO₂".
+
+   The visualisation's own rules (#sky, #earth, .balloon, the budget bar) are
+   carried over from the 2017 partial's inline <style>. The page furniture
+   around them — topbar, sources drawer, embed popup, WRI footer — is dropped,
+   since none of that markup exists in this build.
+   ========================================================================== */
+
+.ghg {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #cceaf3;
+}
+
+.ghg__stage svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------------- the scene -- */
+
+.ghg__svg #sky {
+  fill: #ccecf4;
+}
+.ghg__svg #earth {
+  fill: #dfebcc;
+}
+
+.ghg__svg #budget {
+  fill: #fafafa;
+  opacity: 0.8;
+  stroke: #fafafa;
+  stroke-width: 2;
+}
+.ghg__svg #cumulative {
+  fill: #111;
+  opacity: 0.9;
+}
+.ghg__svg #cumulative-breakdown text {
+  font-size: 14px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.ghg__svg #budget-text {
+  text-anchor: middle;
+  font-size: 45px;
+}
+.ghg__svg #emissions-text {
+  text-anchor: middle;
+  font-size: 80px;
+}
+.ghg__svg #budget-label {
+  font-size: 20px;
+}
+.ghg__svg #emissions-label {
+  font-size: 24px;
+}
+.ghg__svg #emissions-label-note {
+  font-size: 16px;
+}
+.ghg__svg #emissions-year {
+  fill: #fff;
+}
+.ghg__svg #year-label,
+.ghg__svg #emissions-year {
+  font-weight: 700;
+}
+.ghg__svg .explainer {
+  font-size: 18px;
+}
+
+.ghg__svg .axis .domain {
+  stroke-width: 0;
+}
+.ghg__svg .axis .tick line {
+  stroke: #fff;
+  stroke-width: 1;
+}
+.ghg__svg .axis text {
+  fill: #666;
+  font-size: 13px;
+}
+
+.ghg__svg .country {
+  cursor: default;
+}
+.ghg__svg .country circle.shadow {
+  fill: #999;
+}
+.ghg__svg .country:hover circle.shadow,
+.ghg__svg .country:hover polygon,
+.ghg__svg .country:hover text {
+  fill: #000;
+  opacity: 1 !important;
+}
+.ghg__svg .continent {
+  cursor: default;
+}
+
+/* ---------------------------------------------------------------- infobox -- */
+
+.ghg__infobox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 94%);
+  color: #16212b;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+  font-size: 0.875rem;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.ghg__infobox-country {
+  font-weight: 700;
+}
+.ghg__infobox-rank {
+  color: #56697a;
+}
+
+/* ----------------------------------------------------------- intro panel -- */
+
+.ghg__intro {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(46rem, calc(100% - 3rem));
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: rgb(255 255 255 / 90%);
+  color: #16212b;
+  box-shadow: var(--shadow);
+}
+.ghg__intro p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+/* ------------------------------------------------------------- scenarios -- */
+
+.ghg__scenarios {
+  position: absolute;
+  bottom: -500px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+  width: min(56rem, calc(100% - 3rem));
+}
+
+.scenario-group {
+  flex: 1;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius);
+  background: rgb(255 255 255 / 88%);
+  color: #16212b;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.scenario-group:hover {
+  background: #fff;
+}
+.scenario-group.selected {
+  border-color: var(--accent);
+  background: #fff;
+}
+.scenario-group h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+.scenario-group p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #4a5b6a;
+}
+
+/* -------------------------------------------------------------- controls -- */
+
+.ghg__controls {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.ghg__steps,
+.ghg__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.ghg__sort {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #a9c0cd;
+}
+
+.ghg__slider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ghg__year {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: #a9c0cd;
+}
+
+.slider {
+  position: relative;
+  flex: 1;
+  height: 28px;
+  cursor: pointer;
+}
+.slider__track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 25%);
+}
+.slider__handle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: grab;
+  touch-action: none;
+}
+.slider__handle:active {
+  cursor: grabbing;
+}
+
+.section--dark .chip {
+  border-color: rgb(255 255 255 / 25%);
+}
+.section--dark .chip:hover {
+  border-color: var(--accent);
+}
