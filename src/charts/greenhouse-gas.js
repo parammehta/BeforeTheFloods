@@ -863,6 +863,9 @@ export async function renderGreenhouseGas(root) {
   function initSlider() {
     sel('[data-slider-start]').text(SLIDER_START_YEAR);
     sel('[data-slider-end]').text(SLIDER_END_YEAR);
+    // The HTML hardcodes 2011 as a static placeholder; keep the accessible
+    // range in sync with whatever scripts/fetch-data.mjs last pulled.
+    sliderHandle.attr('aria-valuemin', SLIDER_START_YEAR).attr('aria-valuemax', SLIDER_END_YEAR);
 
     select(sliderCore).on('click', (event) => {
       event.preventDefault();

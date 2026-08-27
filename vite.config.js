@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 
-// GitHub Pages serves project sites from /<repo>/, so assets need that prefix.
-// Override with BASE_PATH=/ for a custom domain or a user/org page.
-const base = process.env.BASE_PATH ?? '/BeforeTheFloods/';
+// Deploying to Vercel, which serves from the domain root. Override with
+// BASE_PATH=/BeforeTheFloods/ if this ever moves to a GitHub Pages project
+// page instead, where assets need that prefix.
+const base = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base,

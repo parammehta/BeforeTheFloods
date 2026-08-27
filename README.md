@@ -63,10 +63,18 @@ opens a PR with whatever changed.
 
 ## Deploying
 
-Pushing to `main` builds and deploys to GitHub Pages via
-`.github/workflows/deploy.yml`. To deploy elsewhere, `npm run build` and serve
-`dist/` — set `BASE_PATH=/` at build time if you're not hosting under a
-`/BeforeTheFloods/` subpath (see `vite.config.js`).
+Deployed on [Vercel](https://vercel.com), which builds and redeploys
+automatically on every push to `main` via its GitHub integration — no
+workflow file needed. It serves from the domain root, which is the default
+(`vite.config.js`'s `base` is `/`).
+
+Set the two `VITE_*` keys from `.env.example` as Vercel **Project → Settings
+→ Environment Variables** so live weather works in production; the site
+still builds and every other section works without them.
+
+To deploy elsewhere instead (e.g. a GitHub Pages project page), `npm run
+build` and serve `dist/` — set `BASE_PATH=/BeforeTheFloods/` (or whatever
+your subpath is) at build time; see `vite.config.js`.
 
 ## What changed from 2017
 

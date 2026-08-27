@@ -1,5 +1,7 @@
 /**
- * PM2.5 mean annual exposure, per country, 1990-2013. Source: The World Bank.
+ * PM2.5 mean annual exposure, per country. Source: The World Bank. The year
+ * range is whatever scripts/fetch-data.mjs last pulled — see coverage.json —
+ * not a value baked in here.
  *
  * Ported from the d3 v3 `pollutionIndex` directive. Two bugs came across with
  * it and are fixed here:
