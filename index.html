@@ -1,200 +1,335 @@
-<!DOCTYPE html>
-<html ng-app="d3App">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Before the Floods — when is it too late?</title>
+    <meta
+      name="description"
+      content="An interactive visual story about CO₂ emissions, air pollution and land use, built with d3."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🌊</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Arvo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<head lang="en">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Before the Floods</title>
+  <body>
+    <a class="skip-link" href="#introduction">Skip to content</a>
 
-    <!-- scripts -->
-    <!-- build:js lib/jquery.min.js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- endbuild -->
-    <!-- build:js lib/bootbox.min.js -->
-    <script src="bower_components/bootbox/bootbox.js"></script>
-    <!-- endbuild -->
-    <!-- build:js lib/angular.min.js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <!-- endbuild -->
-    <!-- build:js lib/angular-route.min.js -->
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <!-- endbuild -->
-    <!-- build:js lib/bootstrap.min.js -->
+    <!-- ------------------------------------------------------------- hero -->
+    <header class="hero" data-hero>
+      <video
+        class="hero__video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        poster="/images/beijing_before.png"
+        aria-hidden="true"
+      >
+        <source src="/media/hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__scrim"></div>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+      <div class="hero__body">
+        <h1 class="hero__title">Before the Floods</h1>
+        <p class="hero__tagline">When is it too late?</p>
+        <a class="button button--ghost" href="https://github.com/parammehta/BeforeTheFloods">
+          View on GitHub
+        </a>
+      </div>
 
-    <!-- Custom Google Web Font -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+      <a class="hero__scroll" href="#introduction" aria-label="Scroll to the introduction">
+        <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.5" />
+          <path d="M8 11l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </a>
+    </header>
 
-    <!-- Custom CSS-->
-    <link href="css/general.css" rel="stylesheet">
+    <!-- -------------------------------------------------------------- nav -->
+    <nav class="nav" data-nav aria-label="Sections">
+      <div class="nav__inner">
+        <a class="nav__brand" href="#top">Before the Floods</a>
 
-    <!-- Owl-Carousel -->
-    <link href="css/custom.css" rel="stylesheet">
-    <link href="css/owl.carousel.css" rel="stylesheet">
-    <link href="css/owl.theme.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+        <button
+          class="nav__toggle"
+          type="button"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
+          <span class="visually-hidden">Toggle navigation</span>
+          <span class="nav__bars" aria-hidden="true"></span>
+        </button>
 
-    <!-- Magnific Popup core CSS file -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
+        <ul class="nav__list" id="nav-list" data-nav-list>
+          <li><a data-nav-link href="#introduction">Introduction</a></li>
+          <li><a data-nav-link href="#weather">Weather</a></li>
+          <li><a data-nav-link href="#pollution">Pollution</a></li>
+          <li><a data-nav-link href="#co2">CO₂</a></li>
+          <li><a data-nav-link href="#greenhouse">Carbon budget</a></li>
+          <li><a data-nav-link href="#forest">Land use</a></li>
+        </ul>
+      </div>
+    </nav>
 
-    <script src="js/modernizr-2.8.3.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa7cKsAdsbZcCnSFEQYU-BQI1wk5vX82o&libraries=places"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
-    <!--    Image Slider-->
-    <link rel="stylesheet" type="text/css" href="css/imgslider.min.css">
-    <script type="text/javascript" src="js/imgslider.min.js"></script>
+    <main>
+      <!-- ----------------------------------------------------- introduction -->
+      <section class="section" id="introduction">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Introduction</h2>
+            <p class="section__lead">Will we survive before the floods?</p>
+          </header>
 
-</head>
+          <div class="split">
+            <div class="prose">
+              <p>
+                Global warming is one of the biggest problems the world faces. The atmosphere is
+                being damaged by rising greenhouse gas emissions, the physical impacts are
+                growing, and something has to be done before the damage compounds further.
+              </p>
+              <p>
+                This is a user-interactive story about weather, pollution and land use. It starts
+                with a city of your choosing, so you can see the climate and pollution picture
+                where you live, then widens out to the national and global scale.
+              </p>
+            </div>
 
-<body id="home">
-    <div style="min-height:100%">
-        <!-- Modal -->
-        <!-- Preloader -->
-        <div id="preloader">
-            <div id="status"></div>
+            <figure class="compare">
+              <div class="compare__frame">
+                <img src="/images/beijing_before.png" alt="Beijing skyline on a clear day" width="800" height="450" loading="lazy" />
+                <img src="/images/beijing_after.png" alt="The same Beijing skyline under heavy smog" width="800" height="450" loading="lazy" class="compare__overlay" />
+              </div>
+              <input
+                class="compare__range"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                aria-label="Reveal the smog-covered photograph"
+                oninput="this.closest('.compare').style.setProperty('--split', this.value + '%')"
+              />
+              <figcaption>Beijing, clear air and heavy smog. Drag to compare.</figcaption>
+            </figure>
+          </div>
         </div>
+      </section>
 
-        <!-- FullScreen -->
+      <!-- --------------------------------------------------------- weather -->
+      <section class="section section--alt" id="weather">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Your weather</h2>
+            <p class="section__lead">
+              Current conditions and a five day forecast for any city.
+            </p>
+          </header>
 
-        <div class="intro-header">
-            <div class="bg">
-                <video autoplay loop muted style="min-height:976px">
-                  <source src="vid/video.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="col-xs-12 text-center abcen1">
-                <h1 class="h1_home wow fadeIn" data-wow-delay="0.4s" style="color:white">Before The Floods</h1>
-                <h3 class="h3_home wow fadeIn" data-wow-delay="1.6s">When is it too late?</h3>
-                <ul class="list-inline intro-social-buttons">
-                    <li><a href="https://github.com/" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s"><span class="fa fa-github">&nbsp; Github</span></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-xs-12 text-center abcen wow fadeIn">
-                <div class="button_down ">
-                    <a class="imgcircle wow bounceInUp" data-wow-duration="1.5s" href="#introduction"> <img class="img_scroll" src="img/icon/circle.png" alt=""> </a>
-                </div>
-            </div>
+          <div class="weather__controls">
+            <div class="weather__search-slot" data-place-search></div>
+            <button class="button" type="button" data-unit-toggle>Show °F</button>
+          </div>
+
+          <p class="notice" data-weather-status hidden></p>
+
+          <div class="weather__panel" data-weather-panel hidden>
+            <h3 class="weather__city" data-weather-city></h3>
+            <p class="weather__summary" data-weather-summary></p>
+            <div class="metrics" data-weather-metrics></div>
+            <div class="chart-frame" data-forecast-chart></div>
+          </div>
+
+          <p class="notice notice--error" data-fallback hidden></p>
         </div>
-        <!--
-        <style>
-            .next-banner {
-                padding: 10px;
-                text-align: right;
-                background-color: #34495e;
-            }
+      </section>
 
-        </style>
--->
-        <!--
-        <div class="next-banner">
+      <!-- ------------------------------------------------------- pollution -->
+      <section class="section" id="pollution">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Pollution index</h2>
+            <p class="section__lead">
+              Mean annual exposure to PM2.5, by country<span data-pollution-range></span>. Hover a
+              line to highlight a country; click to pin it.
+            </p>
+          </header>
+
+          <div class="chart-frame" data-chart></div>
+          <p class="credit">Data: The World Bank</p>
+          <p class="notice notice--error" data-fallback hidden></p>
         </div>
--->
+      </section>
 
-        <!-- NavBar-->
-        <nav class="navbar-default" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        					<span class="sr-only">Toggle navigation</span>
-        					<span class="icon-bar"></span>
-        					<span class="icon-bar"></span>
-        					<span class="icon-bar"></span>
-        				</button>
-                    <a class="navbar-brand" href="#home">Before The Floods</a>
-                </div>
+      <!-- ------------------------------------------------------------- co2 -->
+      <section class="section section--alt" id="co2">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Where the CO₂ comes from</h2>
+            <p class="section__lead">
+              Every circle is one country or one sector, sized by annual emissions.
+            </p>
+          </header>
 
-                <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="menuItem"><a href="#introduction">Introduction</a></li>
-                        <li class="menuItem"><a href="#weather">Weather</a></li>
-                        <li class="menuItem"><a href="#pollutionIndex">Pollution index</a></li>
-                        <li class="menuItem"><a href="#greenhousegas">Greenhouse Gas</a></li>
-                        <li class="menuItem"><a href="#forestData">Forest Data</a></li>
-                        <li class="menuItem"><a href="#humanHealth">Human health</a></li>
-                    </ul>
-                </div>
-
+          <div class="controls">
+            <div class="control">
+              <label class="control__label" for="co2-year">
+                Year <output data-co2-year-label>1995</output>
+              </label>
+              <input
+                class="control__range"
+                id="co2-year"
+                type="range"
+                min="1990"
+                max="1990"
+                step="1"
+                value="1990"
+                data-co2-year
+              />
             </div>
-        </nav>
 
-        <!-- Introduction -->
-        <div id="introduction" class="content-section-a" style="border-top: 0">
-            <div class="container">
-                <div class="col-md-6 col-md-offset-3 text-center wrap_title">
-                    <h2>Introduction</h2>
-                    <p class="lead" style="margin-top:0">Will we survive "Before the Floods?"</p>
+            <fieldset class="control control--radios">
+              <legend class="control__label">Break down by</legend>
+              <label><input type="radio" name="co2-kind" value="country" data-co2-kind checked /> Country</label>
+              <label><input type="radio" name="co2-kind" value="source" data-co2-kind /> Source sector</label>
+            </fieldset>
+          </div>
 
-                </div>
-                <div class="col-sm-6 pull-right wow fadeInRightBig">
-                    <p class="lead" style="margin-top:0; text-align: justify">Global warming is one of the biggest problem that the world is facing right now. The atmosphere is being damaged because of the increasing greenhouse gas emissions. Physical impacts of global warming are growing and something needs
-                        be done to save our Earth before it suffers from any more damage. Our proposed project is a user-interactive web-based application which would help people understand about weather and pollution in their city and at a global level.
-                        We would start from a city of the user’s choice so they can get information about climate change and pollution level in their city which would interest him/her to search at a national level and then at an international level.</p>
-                </div>
-
-                <div class="col-sm-6 pull-right wow fadeInLeftBig">
-                    <div class="imageslide">
-                        <img src="images/beijing_before.png" alt="">
-                        <img src="images/beijing_after.png" alt="">
-                    </div>
-                    <script src="js/imgslider.min.js"></script>
-                </div>
-            </div>
+          <div class="chart-frame chart-frame--square" data-chart></div>
+          <p class="credit">Values in megatonnes of CO₂. Data: Our World in Data.</p>
+          <p class="notice notice--error" data-fallback hidden></p>
         </div>
+      </section>
 
-        <!-- views -->
-        <div ng-view padding="0px"> </div>
+      <!-- ------------------------------------------------- greenhouse gas -->
+      <section class="section section--dark" id="greenhouse">
+        <div class="wrap wrap--wide">
+          <header class="section__head">
+            <h2>The past, present and future of CO₂</h2>
+            <p class="section__lead">
+              How national emissions have changed over 150 years, how much of the global carbon
+              budget they have used, and what the scenarios hold.
+            </p>
+          </header>
 
-    </div>
-    <script src="js/owl.carousel.js"></script>
-    <script src="js/script.js"></script>
-    <!-- StikyMenu -->
-    <script src="js/stickUp.min.js"></script>
-    <script type="text/javascript">
-        jQuery(function($) {
-            $(document).ready(function() {
-                $('.navbar-default').stickUp();
+          <div class="ghg" data-ghg-main>
+            <div class="ghg__stage" data-svg-holder></div>
 
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            new imageslide();
-        });
-    </script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
-    <!-- Smoothscroll -->
-    <script type="text/javascript" src="js/jquery.corner.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/d3.js"></script>
-    <script>
-        new WOW().init();
-    </script>
-    <script src="js/classie.js"></script>
-    <!-- <script src="js/uiMorphingButton_inflow.js"></script> -->
-    <!-- Magnific Popup core JS file -->
-    <script src="js/jquery.magnific-popup.js"></script>
-    <!-- <script src="scripts/d3test.js"></script> -->
+            <div class="ghg__infobox" data-infobox>
+              <div class="ghg__infobox-country" data-infobox-country></div>
+              <div class="ghg__infobox-stat" data-infobox-stat></div>
+              <div class="ghg__infobox-rank" data-infobox-rank></div>
+            </div>
 
-    <!-- Angular JS Files go here -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/factory/serviceCall.js"></script>
-    <script src="scripts/factory/activeData.js"></script>
-    <script src="scripts/controllers/weatherController.js"></script>
-    <script src="scripts/controllers/pollutionIndexController.js"></script>
-    <script src="scripts/controllers/co2DataController.js"></script>
-    <script src="scripts/controllers/forestDataController.js"></script>
-    <script src="scripts/controllers/greenhousegasController.js"></script>
-    <script src="js/talkie-1.3.1.min.js"></script>
+            <div class="ghg__intro" data-ghg-intro>
+              <p>
+                Based on data from WRI's
+                <a href="https://www.wri.org/data/cait-climate-data-explorer" target="_blank" rel="noopener">CAIT</a>
+                and the IPCC. Press play to watch, or use the controls below to explore.
+              </p>
+            </div>
 
-    <script src="http://d3js.org/queue.v1.min.js"></script>
+            <div class="ghg__scenarios" data-ghg-scenarios>
+              <div class="scenario-group" data-scenario-index="0" role="button" tabindex="0">
+                <h3>Fossil fuel intensive</h3>
+                <p>Global CO₂ emissions keep growing at roughly current rates. IPCC RCP8.5.</p>
+              </div>
+              <div class="scenario-group" data-scenario-index="3" role="button" tabindex="0">
+                <h3>Transformative change</h3>
+                <p>Emissions fall quickly from 2020 and go negative in the 2080s. IPCC RCP2.6.</p>
+              </div>
+            </div>
+          </div>
 
-</body>
+          <div class="ghg__controls">
+            <div class="ghg__steps">
+              <button class="chip" type="button" data-step="1">1 · Intro</button>
+              <button class="chip" type="button" data-step="2">2 · Emitters</button>
+              <button class="chip" type="button" data-step="3">3 · Budget</button>
+              <button class="chip" type="button" data-step="4">4 · Scenarios</button>
+            </div>
 
+            <div class="ghg__slider hideable-controls">
+              <span class="ghg__year" data-slider-start>1860</span>
+              <div class="slider" data-slider-core>
+                <div class="slider__track"></div>
+                <button
+                  class="slider__handle"
+                  type="button"
+                  data-slider-handle
+                  role="slider"
+                  aria-label="Year"
+                  aria-valuemin="1860"
+                  aria-valuemax="2011"
+                  aria-valuenow="1860"
+                ></button>
+              </div>
+              <span class="ghg__year" data-slider-end>2011</span>
+            </div>
+
+            <div class="ghg__buttons">
+              <button class="chip" type="button" data-loop aria-pressed="false">
+                <span>Play</span>
+              </button>
+              <span class="ghg__sort">
+                Sort:
+                <button class="chip" type="button" data-sort="CO2">By emissions</button>
+                <button class="chip" type="button" data-sort="continents">By continent</button>
+              </span>
+            </div>
+          </div>
+
+          <p class="credit">
+            Historical emissions: Our World in Data. Projections: the IPCC RCP scenarios,
+            carried over from the 2017 WRI CAIT release used in the original visualisation.
+          </p>
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------------- forest -->
+      <section class="section" id="forest">
+        <div class="wrap">
+          <header class="section__head">
+            <h2>Forest and farmland</h2>
+            <p class="section__lead">
+              Hover a country for its split of forest, agriculture and other land.
+            </p>
+          </header>
+
+          <div class="controls">
+            <button class="button" type="button" data-map-toggle aria-pressed="false">
+              Show agricultural land
+            </button>
+            <p class="control__caption" data-map-caption>Forest area (% of total land area)</p>
+          </div>
+
+          <div class="chart-frame" data-chart></div>
+          <p class="credit">Data: The World Bank</p>
+          <p class="notice notice--error" data-fallback hidden></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <p>
+          Before the Floods — a data visualisation project, originally built in 2017 and rebuilt
+          in <span data-year>2026</span>.
+        </p>
+        <p class="credit">
+          Sources: The World Bank, WRI CAIT, the IPCC, and OpenWeatherMap.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
