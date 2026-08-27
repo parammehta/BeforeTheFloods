@@ -136,14 +136,13 @@ export async function renderPollutionIndex(container) {
     label.style('opacity', 0);
   }
 
-  lines
-    .on('pointerenter', (_event, d) => highlight(d))
-    .on('pointerleave', clearHighlight)
-    .on('click', (_event, d) => {
-      if (pinned.has(d.country)) pinned.delete(d.country);
-      else pinned.add(d.country);
-      paint();
-    });
+  function togglePin(datum) {
+    if (pinned.has(datum.country)) pinned.delete(datum.country);
+    else pinned.add(datum.country);
+    paint();
+  }
+
+  lines.on('pointerenter', (_event, d) => highlight(d)).on('pointerleave', clearHighlight);
 
   /* Keyboard and touch users get a select instead of hover. */
   const picker = select(container)
@@ -171,32 +170,46 @@ export async function renderPollutionIndex(container) {
 
   const allYears = series.flatMap((s) => s.points.map((p) => p.year.getFullYear()));
 
-  /* Nearest-line hover across the whole plot, so thin lines are still catchable. */
+  /* Find the series whose line passes closest to the pointer at this x, so
+     thin/overlapping lines are still targetable. Shared by hover and click —
+     click used to be a separate listener on the <path> elements, but the
+     surface rect below sits on top of them in z-order and swallows every
+     click before it reaches a path, so pinning silently did nothing. */
+  function nearestSeries(event) {
+    const [mx, my] = pointer(event);
+    const year = x.invert(mx);
+    let best = null;
+    let bestDistance = Infinity;
+
+    for (const s of series) {
+      const point = s.points.reduce((a, b) =>
+        Math.abs(b.year - year) < Math.abs(a.year - year) ? b : a,
+      );
+      const distance = Math.abs(y(point.value) - my);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = s;
+      }
+    }
+
+    return bestDistance < 24 ? best : null;
+  }
+
+  /* Nearest-line hover (and click-to-pin) across the whole plot. */
   g.append('rect')
     .attr('class', 'chart__surface')
     .attr('width', innerWidth)
     .attr('height', innerHeight)
     .on('pointermove', (event) => {
-      const [mx, my] = pointer(event);
-      const year = x.invert(mx);
-      let best = null;
-      let bestDistance = Infinity;
-
-      for (const s of series) {
-        const point = s.points.reduce((a, b) =>
-          Math.abs(b.year - year) < Math.abs(a.year - year) ? b : a,
-        );
-        const distance = Math.abs(y(point.value) - my);
-        if (distance < bestDistance) {
-          bestDistance = distance;
-          best = s;
-        }
-      }
-
-      if (best && bestDistance < 24) highlight(best);
+      const nearest = nearestSeries(event);
+      if (nearest) highlight(nearest);
       else clearHighlight();
     })
-    .on('pointerleave', clearHighlight);
+    .on('pointerleave', clearHighlight)
+    .on('click', (event) => {
+      const nearest = nearestSeries(event);
+      if (nearest) togglePin(nearest);
+    });
 
   return { first: Math.min(...allYears), last: Math.max(...allYears) };
 }
